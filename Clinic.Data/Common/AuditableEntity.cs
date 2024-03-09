@@ -1,4 +1,4 @@
-﻿namespace Clinic.Domain.Common;
+﻿namespace Clinic.Data.Common;
 
 public abstract class AuditableEntity : BaseEntity
 {

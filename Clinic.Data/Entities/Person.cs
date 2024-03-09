@@ -1,6 +1,6 @@
-﻿using Clinic.Domain.Common;
+﻿using Clinic.Data.Common;
 
-namespace Clinic.Domain.Entities;
+namespace Clinic.Data.Entities;
 
 public class Person : AuditableEntity
 {
@@ -14,9 +14,9 @@ public class Person : AuditableEntity
 
     public string Telephone { get; set; } = string.Empty;
 
-    public string NIF { get; set; } = string.Empty; // TODO: Unique Constraint
+    public string NIF { get; set; } = string.Empty; 
 
-    public int SocialNumber { get; set; } // TODO: Unique Constraint 
+    public int SocialNumber { get; set; }  
 
     public Doctor Doctor { get; set; } = new(); // One to One
 

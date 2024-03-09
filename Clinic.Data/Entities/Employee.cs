@@ -1,6 +1,6 @@
-﻿using Clinic.Domain.Common;
+﻿using Clinic.Data.Common;
 
-namespace Clinic.Domain.Entities;
+namespace Clinic.Data.Entities;
 
 public class Employee : AuditableEntity
 {

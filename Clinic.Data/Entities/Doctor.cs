@@ -1,6 +1,6 @@
-﻿using Clinic.Domain.Common;
+﻿using Clinic.Data.Common;
 
-namespace Clinic.Domain.Entities;
+namespace Clinic.Data.Entities;
 
 public class Doctor : AuditableEntity
 {
@@ -10,7 +10,7 @@ public class Doctor : AuditableEntity
         DoctorPatients = new HashSet<DoctorPatient>();
     }
 
-    public int CollegueNumber { get; set; } // TODO: Unique Constraint
+    public int CollegueNumber { get; set; } 
 
     public DateTime StartDate { get; set; }
 
