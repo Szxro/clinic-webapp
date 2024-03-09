@@ -1,4 +1,4 @@
-﻿namespace Clinic.Data.Common;
+﻿namespace Clinic.Data.Entities.Common;
 
 public abstract class BaseEntity
 {
