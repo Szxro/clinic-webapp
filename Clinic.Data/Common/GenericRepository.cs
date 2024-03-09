@@ -1,12 +1,12 @@
-﻿using Clinic.Data.Common;
+﻿using Clinic.Data.Entities.Common;
 using Clinic.Data.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
 
-namespace Clinic.Data.Repositories;
+namespace Clinic.Data.Common;
 
-public abstract class GenericRepository<TEntity> 
+public abstract class GenericRepository<TEntity>
     where TEntity : BaseEntity
 {
     protected readonly AppDbContext _dbContext;
@@ -26,17 +26,12 @@ public abstract class GenericRepository<TEntity>
         _dbContext.Set<TEntity>().AddRange(entities);
     }
 
-    public void ChangeContextTracker(object entity,EntityState entityState)
-    {
-        _dbContext.Entry(entity).State = entityState;
-    }
-
     public async Task<TEntity?> GetById(int Id)
     {
         return await _dbContext.Set<TEntity>().Where(x => x.Id == Id).FirstOrDefaultAsync();
     }
 
-    public async Task<int?> DeleteBy(Expression<Func<TEntity,bool>> filter)
+    public async Task<int?> DeleteBy(Expression<Func<TEntity, bool>> filter)
     {
         return await _dbContext.Set<TEntity>().Where(filter).ExecuteDeleteAsync();
     }
