@@ -1,4 +1,4 @@
-﻿using Clinic.Data.Common;
+﻿using Clinic.Data.Entities.Common;
 
 namespace Clinic.Data.Entities;
 
@@ -6,9 +6,9 @@ public class DoctorPatient : AuditableEntity
 {
     public Doctor Doctor { get; set; } = new();
 
-    public int DoctorId { get; set; }
+    public int? DoctorId { get; set; }
 
     public Patient Patient { get; set; } = new();
 
-    public int PatientId { get; set; }
+    public int? PatientId { get; set; }
 }

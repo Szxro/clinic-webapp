@@ -1,4 +1,4 @@
-﻿using Clinic.Data.Common;
+﻿using Clinic.Data.Entities.Common;
 
 namespace Clinic.Data.Entities;
 
