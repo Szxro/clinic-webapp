@@ -1,9 +1,6 @@
-﻿using Clinic.Data.Entities;
+﻿namespace Clinic.Data.Contracts;
 
-namespace Clinic.Data.Contracts
+public interface IVacationPeriodStatus
 {
-    public interface IVacationPeriodStatus
-    {
-        Task AddDefaultVacationPeriodStatus();
-    }
+    Task AddDefaultVacationPeriodStatus();
 }
