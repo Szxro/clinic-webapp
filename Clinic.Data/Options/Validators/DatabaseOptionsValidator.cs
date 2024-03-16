@@ -1,29 +1,34 @@
 ﻿using FluentValidation;
+using FluentValidation.Results;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace Clinic.Data.Options.Validators;
 
-public class DatabaseOptionsValidator : AbstractValidator<DatabaseOptions>
+public sealed class DatabaseOptionsValidator : IValidateOptions<DatabaseOptions>
 {
-    public DatabaseOptionsValidator()
+    private readonly IServiceScopeFactory _serviceScopeFactory;
+
+    public DatabaseOptionsValidator(IServiceScopeFactory serviceScopeFactory)
     {
-        RuleFor(options => options.ConnectionString).NotEmpty().WithMessage("The {PropertyName} cant be empty");
+        _serviceScopeFactory = serviceScopeFactory;
+    }
 
-        RuleFor(options => options.ConnectionString).NotNull().WithMessage("The {PropertyName} cant be null");
+    public ValidateOptionsResult Validate(string? name, DatabaseOptions options)
+    {
+        using var scope = _serviceScopeFactory.CreateScope();
 
-        RuleFor(options => options.CommandTimeout).NotNull().WithMessage("The {PropertyName} cant be null");
+        IValidator<DatabaseOptions> validator = scope.ServiceProvider.GetRequiredService<IValidator<DatabaseOptions>>();
 
-        RuleFor(options => options.CommandTimeout).NotEmpty().WithMessage("The {PropertyName} cant be empty");
+        ValidationResult result = validator.Validate(options);
 
-        RuleFor(options => options.EnableDetailedErrors).NotEmpty().WithMessage("The {PropertyName} cant be empty");
+        if (result.IsValid)
+        {
+            return ValidateOptionsResult.Success;
+        }
 
-        RuleFor(options => options.EnableDetailedErrors).NotNull().WithMessage("The {PropertyName} cant be null");
+        var errors = result.Errors.Select(x => $"Validation failed to {x.PropertyName} with the Error Message {x.ErrorMessage}").ToList();
 
-        RuleFor(options => options.EnableSensitiveDataLogging).NotEmpty().WithMessage("The {PropertyName} cant be empty");
-
-        RuleFor(options => options.EnableSensitiveDataLogging).NotNull().WithMessage("The {PropertyName} cant be null");
-
-        RuleFor(options => options.MaxRetryCount).NotEmpty().WithMessage("The {PropertyName} cant be empty");
-
-        RuleFor(options => options.MaxRetryCount).NotNull().WithMessage("The {PropertyName} cant be null");
+        return ValidateOptionsResult.Fail(errors);
     }
 }
