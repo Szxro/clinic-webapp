@@ -1,3 +1,8 @@
+using Clinic.Business.Doctors.Commands.CreateDoctor;
+using Clinic.Business.DoctorsPosition.Query.GetDoctorPositionByPositionNameQuery;
+using Clinic.Data.Entities;
+using Clinic.Data.Entities.Common.Primitives;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Clinic.Api.Controllers
@@ -12,10 +17,12 @@ namespace Clinic.Api.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly IMediator _mediator;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger,IMediator mediator)
         {
             _logger = logger;
+            _mediator = mediator;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
@@ -28,6 +35,24 @@ namespace Clinic.Api.Controllers
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+
+        [HttpPost("doctor/register")]
+
+        public async Task<ActionResult<Result<string>>> CreateNewDoctor(CreateDoctorCommand createDoctor)
+        {
+            var result = await _mediator.Send(createDoctor);
+
+            return result.IsSuccess ? Ok() : BadRequest(result.Error);
+        }
+
+        [HttpGet("doctorPosition/getByPositionName")]
+
+        public async Task<ActionResult<Result<DoctorPosition>>> GetDoctorPositionByPositionName(string doctorPosition)
+        {
+            var result = await _mediator.Send(new GetDoctorPositionByPositionNameQuery(doctorPosition));
+
+            return result.IsSuccess ? Ok(result.Data) : BadRequest(result.Error);
         }
     }
 }
