@@ -12,8 +12,8 @@ using Microsoft.Extensions.Hosting;
 using Clinic.Data.Contracts;
 using Clinic.Data.Repositories;
 using Clinic.Data.Common;
-using System.Runtime.CompilerServices;
 using Clinic.Data.Persistence.Interceptors;
+using Clinic.Data.Options.Validators;
 
 namespace Clinic.Data;
 
@@ -27,7 +27,7 @@ public static class DataServiceRegistration
 
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
-        services.AddSingleton<IValidateOptions<DatabaseOptions>, DatabaseOptionsServiceValidator>();
+        services.AddSingleton<IValidateOptions<DatabaseOptions>, DatabaseOptionsValidator>();
 
         services.AddSingleton<AuditableEntititesInterceptor>();
 
@@ -52,6 +52,9 @@ public static class DataServiceRegistration
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddTransient<IVacationPeriodStatus, VacationPeriodStatusRepository>();
+        services.AddTransient<IDoctorPositionRepository, DoctorPositionRepository>();
+        services.AddTransient<IEmployeePositionRepository, EmployeePositionRepository>();
+        services.AddTransient<IDoctorRepository, DoctorRepository>();
         services.AddTransient<IAppDbInitializer, AppDbInitializer>();
         services.AddTransient<IDateService, DateService>();
 
