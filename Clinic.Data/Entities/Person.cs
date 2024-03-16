@@ -18,11 +18,11 @@ public class Person : AuditableEntity
 
     public int SocialNumber { get; set; }  
 
-    public Doctor Doctor { get; set; } = new(); // One to One
+    public Doctor? Doctor { get; set; }  // One to One
 
-    public Employee Employee { get; set; } = new();
+    public Employee? Employee { get; set; } 
 
-    public Patient Patient { get; set; } = new();
+    public Patient? Patient { get; set; } 
 
     public ICollection<PersonAddress> PersonAddresses { get; set; } // One to Many
 

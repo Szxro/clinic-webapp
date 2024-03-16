@@ -20,9 +20,9 @@ public class Doctor : AuditableEntity
 
     public int PersonId { get; set; }
 
-    public DoctorPosition DoctorPosition { get; set; } = new(); // One to One
-
     public int DoctorPositionId { get; set; }
+
+    public DoctorPosition DoctorPosition { get; set; } = new(); // One to One
 
     public ICollection<DoctorConsult> DoctorConsults { get; set; } // One to Many
 

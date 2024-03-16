@@ -8,7 +8,7 @@ public class Employee : AuditableEntity
 
     public int PersonId { get; set; }
 
-    public EmployeePosition EmployeePosition { get; set; } = new(); // One to One
-
     public int EmployeePositionId { get; set; }
+
+    public EmployeePosition EmployeePosition { get; set; } = new();  // One to One
 }

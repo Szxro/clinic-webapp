@@ -12,7 +12,7 @@ public class PersonVacationPeriod : AuditableEntity
 
     public DateTime? EndDate { get; set; }
 
-    public VacationPeriodStatus VacationPeriodStatus { get; set; } = new();
-
     public int VacationPeriodStatusId { get; set; }
+
+    public VacationPeriodStatus VacationPeriodStatus { get; set; } = new();
 }

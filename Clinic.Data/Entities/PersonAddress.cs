@@ -18,7 +18,7 @@ public class PersonAddress : AuditableEntity
 
     public string Province { get; set; } = string.Empty;
 
-    public Person Person { get; set; } = new();
-
     public int PersonId { get; set; }
+
+    public Person Person { get; set; } = new();
 }
