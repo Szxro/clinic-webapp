@@ -9,14 +9,20 @@ public class AppDbInitializer : IAppDbInitializer
     private readonly AppDbContext _appDbContext;
     private readonly ILogger<AppDbInitializer> _logger;
     private readonly IVacationPeriodStatus _vacationPeriodStatus;
+    private readonly IDoctorPositionRepository _doctorPositionRepository;
+    private readonly IEmployeePositionRepository _employeePositionRepository;
 
     public AppDbInitializer(AppDbContext appDbContext,
                             ILogger<AppDbInitializer> logger,
-                            IVacationPeriodStatus vacationPeriodStatus)
+                            IVacationPeriodStatus vacationPeriodStatus,
+                            IDoctorPositionRepository doctorPositionRepository,
+                            IEmployeePositionRepository employeePositionRepository)
     {
         _appDbContext = appDbContext;
         _logger = logger;
         _vacationPeriodStatus = vacationPeriodStatus;
+        _doctorPositionRepository = doctorPositionRepository;
+        _employeePositionRepository = employeePositionRepository;
     }
     public async Task ConnectAsync()
     {
@@ -48,6 +54,10 @@ public class AppDbInitializer : IAppDbInitializer
     {
         try
         {
+            await TrySeedEmployeePositionAsync();
+
+            await TrySeedDoctorPositionAsync();
+
             await TrySeedVacationPeriodStatusAsync();
 
         } catch(Exception ex)
@@ -63,6 +73,22 @@ public class AppDbInitializer : IAppDbInitializer
         if (!_appDbContext.VacationPeriodStatus.Any())
         {
             await _vacationPeriodStatus.AddDefaultVacationPeriodStatus();
+        }
+    }
+
+    private async Task TrySeedDoctorPositionAsync()
+    {
+        if (!_appDbContext.DoctorPosition.Any())
+        {
+            await _doctorPositionRepository.AddDefaultDoctorPosition();
+        }
+    }
+
+    private async Task TrySeedEmployeePositionAsync()
+    {
+        if (!_appDbContext.EmployeePosition.Any())
+        {
+            await _employeePositionRepository.AddDefaultEmployeePositions();
         }
     }
 }
