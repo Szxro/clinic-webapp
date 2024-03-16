@@ -18,6 +18,11 @@ public class UnitOfWork : IUnitOfWork
         _appDbContext.Entry(entity).State = entityState;
     }
 
+    public void ChangeContextTrackerToUnchanged(object entity)
+    {
+        _appDbContext.Entry(entity).State = EntityState.Unchanged;
+    }
+
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         return await _appDbContext.SaveChangesAsync(cancellationToken);
