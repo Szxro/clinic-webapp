@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
-    builder.Configuration.AddUserSecrets<Program>(optional:false,reloadOnChange:true);
+    builder.Configuration.AddUserSecrets<Program>(optional:true,reloadOnChange:true);
 }
 
 

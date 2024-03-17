@@ -10,4 +10,14 @@ public class DoctorRepository : GenericRepository<Doctor>, IDoctorRepository
     public DoctorRepository(AppDbContext dbContext) : base(dbContext)
     {
     }
+
+    public Task<Doctor> GetDoctorById(int doctorId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Update(Doctor doctor)
+    {
+        throw new NotImplementedException();
+    }
 }
