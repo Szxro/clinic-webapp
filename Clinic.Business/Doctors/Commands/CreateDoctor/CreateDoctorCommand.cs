@@ -54,7 +54,7 @@ public class CreateDoctorCommandHandler : ICommandHandler<CreateDoctorCommand, R
             StartDate = DateTime.UtcNow,
         };
 
-        _doctorRepository.Add(doctor);
+        await _doctorRepository.AddAsync(doctor);
 
         await _unitOfWork.SaveChangesAsync();
 

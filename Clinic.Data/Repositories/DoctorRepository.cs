@@ -11,12 +11,32 @@ public class DoctorRepository : GenericRepository<Doctor>, IDoctorRepository
     {
     }
 
-    public Task<Doctor> GetDoctorById(int doctorId)
+    public Task AddAsync(Doctor doctor)
     {
         throw new NotImplementedException();
     }
 
-    public void Update(Doctor doctor)
+    public Task DeleteAsync(Doctor doctor)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<Doctor>> GetAllAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Doctor> GetByIdAsync(int doctorId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Doctor> GetDoctorByIdAsync(int doctorId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task UpdatAsync(Doctor doctor)
     {
         throw new NotImplementedException();
     }

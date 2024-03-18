@@ -4,7 +4,10 @@ namespace Clinic.Data.Contracts;
 
 public interface IDoctorRepository
 {
-    void Add(Doctor newDoctor);
-    Task<Doctor> GetDoctorById(int doctorId);
-    void Update(Doctor doctor);
+    Task AddAsync(Doctor doctor);
+    Task<IEnumerable<Doctor>> GetAllAsync();
+    Task DeleteAsync(Doctor doctor);
+    Task<Doctor> GetByIdAsync(int doctorId);
+    Task<Doctor> GetDoctorByIdAsync(int doctorId);
+    Task UpdatAsync(Doctor doctor);
 }
