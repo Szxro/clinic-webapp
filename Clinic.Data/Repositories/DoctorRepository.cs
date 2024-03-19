@@ -31,18 +31,18 @@ public class DoctorRepository : GenericRepository<Doctor>, IDoctorRepository
     public async Task AddAsync(Doctor doctor)
     {
         await _dbContext.Doctor.AddAsync(doctor);
-        await _unitOfWork.SaveChangesAsync();
+       // await _unitOfWork.SaveChangesAsync();
     }
 
     public async Task UpdateAsync(Doctor doctor)
     {
         _dbContext.Doctor.Update(doctor);
-        await _unitOfWork.SaveChangesAsync();
+       // await _unitOfWork.SaveChangesAsync();
     }
 
     public async Task DeleteAsync(Doctor doctor)
     {
         _dbContext.Doctor.Remove(doctor);
-        await _unitOfWork.SaveChangesAsync();
+      //  await _unitOfWork.SaveChangesAsync();
     }
 }
