@@ -2,42 +2,44 @@
 using Clinic.Data.Contracts;
 using Clinic.Data.Entities;
 using Clinic.Data.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace Clinic.Data.Repositories;
 
-public class DoctorRepository : GenericRepository<Doctor>, IDoctorRepository
+public class DoctorRepository : IDoctorRepository
 {
-    public DoctorRepository(AppDbContext dbContext) : base(dbContext)
+    private readonly AppDbContext _dbContext;
+
+    public DoctorRepository(AppDbContext dbContext)
     {
+        _dbContext = dbContext;
     }
 
-    public Task AddAsync(Doctor doctor)
+    public async Task<Doctor?> GetByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        return await _dbContext.Doctor.FindAsync(id);
     }
 
-    public Task DeleteAsync(Doctor doctor)
+    public async Task<IEnumerable<Doctor>> GetAllAsync()
     {
-        throw new NotImplementedException();
+        return await _dbContext.Doctor.ToListAsync();
     }
 
-    public Task<IEnumerable<Doctor>> GetAllAsync()
+    public async Task AddAsync(Doctor doctor)
     {
-        throw new NotImplementedException();
+        await _dbContext.Doctor.AddAsync(doctor);
+        await _dbContext.SaveChangesAsync();
     }
 
-    public Task<Doctor> GetByIdAsync(int doctorId)
+    public async Task UpdateAsync(Doctor doctor)
     {
-        throw new NotImplementedException();
+        _dbContext.Doctor.Update(doctor);
+        await _dbContext.SaveChangesAsync();
     }
 
-    public Task<Doctor> GetDoctorByIdAsync(int doctorId)
+    public async Task DeleteAsync(Doctor doctor)
     {
-        throw new NotImplementedException();
-    }
-
-    public Task UpdatAsync(Doctor doctor)
-    {
-        throw new NotImplementedException();
+        _dbContext.Doctor.Remove(doctor);
+        await _dbContext.SaveChangesAsync();
     }
 }

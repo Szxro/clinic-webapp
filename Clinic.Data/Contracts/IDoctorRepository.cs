@@ -8,6 +8,5 @@ public interface IDoctorRepository
     Task<IEnumerable<Doctor>> GetAllAsync();
     Task DeleteAsync(Doctor doctor);
     Task<Doctor> GetByIdAsync(int doctorId);
-    Task<Doctor> GetDoctorByIdAsync(int doctorId);
-    Task UpdatAsync(Doctor doctor);
+    Task UpdateAsync(Doctor doctor);
 }

@@ -41,7 +41,7 @@ namespace Clinic.Business.Doctors.Commands.UpdateDoctor
 
             _unitOfWork.ChangeContextTrackerToUnchanged(doctorPosition);
 
-            Doctor doctor = await _doctorRepository.GetDoctorByIdAsync(request.doctorId);
+            Doctor doctor = await _doctorRepository.GetByIdAsync(request.doctorId);
 
             if (doctor is null)
             {
