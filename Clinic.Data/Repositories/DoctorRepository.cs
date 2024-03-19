@@ -6,17 +6,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Clinic.Data.Repositories;
 
-public class DoctorRepository : IDoctorRepository
+public class DoctorRepository : GenericRepository<Doctor>, IDoctorRepository
 {
+    private readonly IUnitOfWork _unitOfWork;
     private readonly AppDbContext _dbContext;
 
-    public DoctorRepository(AppDbContext dbContext)
+    public DoctorRepository(AppDbContext dbContext, IUnitOfWork unitOfWork): base(dbContext)
     {
         _dbContext = dbContext;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<Doctor?> GetByIdAsync(int id)
     {
+
         return await _dbContext.Doctor.FindAsync(id);
     }
 
@@ -28,18 +31,18 @@ public class DoctorRepository : IDoctorRepository
     public async Task AddAsync(Doctor doctor)
     {
         await _dbContext.Doctor.AddAsync(doctor);
-        await _dbContext.SaveChangesAsync();
+        await _unitOfWork.SaveChangesAsync();
     }
 
     public async Task UpdateAsync(Doctor doctor)
     {
         _dbContext.Doctor.Update(doctor);
-        await _dbContext.SaveChangesAsync();
+        await _unitOfWork.SaveChangesAsync();
     }
 
     public async Task DeleteAsync(Doctor doctor)
     {
         _dbContext.Doctor.Remove(doctor);
-        await _dbContext.SaveChangesAsync();
+        await _unitOfWork.SaveChangesAsync();
     }
 }
