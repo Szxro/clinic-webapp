@@ -9,18 +9,15 @@ namespace Clinic.Data.Repositories;
 public class DoctorRepository : GenericRepository<Doctor>, IDoctorRepository
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly AppDbContext _dbContext;
 
-    public DoctorRepository(AppDbContext dbContext, IUnitOfWork unitOfWork): base(dbContext)
+    public DoctorRepository(AppDbContext dbContext, IUnitOfWork unitOfWork) : base(dbContext)
     {
-        _dbContext = dbContext;
         _unitOfWork = unitOfWork;
     }
 
     public async Task<Doctor?> GetByIdAsync(int id)
     {
-
-        return await _dbContext.Doctor.FindAsync(id);
+        return await GetById(id);
     }
 
     public async Task<IEnumerable<Doctor>> GetAllAsync()
@@ -30,19 +27,19 @@ public class DoctorRepository : GenericRepository<Doctor>, IDoctorRepository
 
     public async Task AddAsync(Doctor doctor)
     {
-        await _dbContext.Doctor.AddAsync(doctor);
-       // await _unitOfWork.SaveChangesAsync();
+        Add(doctor);
+        await _unitOfWork.SaveChangesAsync();
     }
 
     public async Task UpdateAsync(Doctor doctor)
     {
-        _dbContext.Doctor.Update(doctor);
-       // await _unitOfWork.SaveChangesAsync();
+        _dbContext.Update(doctor);
+        await _unitOfWork.SaveChangesAsync();
     }
 
     public async Task DeleteAsync(Doctor doctor)
     {
-        _dbContext.Doctor.Remove(doctor);
-      //  await _unitOfWork.SaveChangesAsync();
+        _dbContext.Remove(doctor);
+        await _unitOfWork.SaveChangesAsync();
     }
 }
