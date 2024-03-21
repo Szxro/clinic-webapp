@@ -1,6 +1,6 @@
 ﻿namespace Clinic.Data.Contracts;
 
-public interface IAppDbInitializer
+public interface IAppDbInitializerService
 {
     Task ConnectAsync();
 

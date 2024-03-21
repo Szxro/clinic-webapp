@@ -1,19 +1,20 @@
 ﻿using Clinic.Data.Contracts;
+using Clinic.Data.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace Clinic.Data.Persistence;
+namespace Clinic.Data.Services;
 
-public class AppDbInitializer : IAppDbInitializer
+public class AppDbInitializerService : IAppDbInitializerService
 {
     private readonly AppDbContext _appDbContext;
-    private readonly ILogger<AppDbInitializer> _logger;
+    private readonly ILogger<AppDbInitializerService> _logger;
     private readonly IVacationPeriodStatus _vacationPeriodStatus;
     private readonly IDoctorPositionRepository _doctorPositionRepository;
     private readonly IEmployeePositionRepository _employeePositionRepository;
 
-    public AppDbInitializer(AppDbContext appDbContext,
-                            ILogger<AppDbInitializer> logger,
+    public AppDbInitializerService(AppDbContext appDbContext,
+                            ILogger<AppDbInitializerService> logger,
                             IVacationPeriodStatus vacationPeriodStatus,
                             IDoctorPositionRepository doctorPositionRepository,
                             IEmployeePositionRepository employeePositionRepository)
@@ -29,10 +30,11 @@ public class AppDbInitializer : IAppDbInitializer
         try
         {
             await _appDbContext.Database.CanConnectAsync();
-        
-        } catch(Exception ex)
+
+        }
+        catch (Exception ex)
         {
-            _logger.LogError("An error occured trying to connect to the database with the provider name {databaseProviderName} : {message}", _appDbContext.Database.ProviderName,ex.Message);
+            _logger.LogError("An error occured trying to connect to the database with the provider name {databaseProviderName} : {message}", _appDbContext.Database.ProviderName, ex.Message);
 
             throw;
         }
@@ -40,13 +42,14 @@ public class AppDbInitializer : IAppDbInitializer
 
     public async Task MigrateAsync()
     {
-        try 
+        try
         {
             await _appDbContext.Database.MigrateAsync();
 
-        }catch(Exception ex)
+        }
+        catch (Exception ex)
         {
-            _logger.LogError("An error occured trying to do migration to the database with the provider name {databaseProviderName} : {message}",_appDbContext.Database.ProviderName,ex.Message);
+            _logger.LogError("An error occured trying to do migration to the database with the provider name {databaseProviderName} : {message}", _appDbContext.Database.ProviderName, ex.Message);
         }
     }
 
@@ -60,9 +63,10 @@ public class AppDbInitializer : IAppDbInitializer
 
             await TrySeedVacationPeriodStatusAsync();
 
-        } catch(Exception ex)
+        }
+        catch (Exception ex)
         {
-            _logger.LogError("An error occurred trying to seed the database with the error message : {message}",ex.Message);
+            _logger.LogError("An error occurred trying to seed the database with the error message : {message}", ex.Message);
 
             throw;
         }
