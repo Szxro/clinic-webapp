@@ -1,7 +1,6 @@
-﻿using Clinic.Data.Contracts;
-using MediatR;
+﻿using MediatR;
 
-namespace Clinic.Business.Contracts;
+namespace Clinic.Data.Contracts;
 
 public interface IEventHandler< in TEvent> : INotificationHandler<TEvent>
     where TEvent : IEvent
