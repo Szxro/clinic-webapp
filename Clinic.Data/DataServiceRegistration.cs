@@ -1,7 +1,6 @@
 ﻿using Clinic.Data.Options;
 using Clinic.Data.Persistence;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using FluentValidation;
@@ -13,17 +12,16 @@ using Clinic.Data.Contracts;
 using Clinic.Data.Repositories;
 using Clinic.Data.Common;
 using Clinic.Data.Persistence.Interceptors;
-using Clinic.Data.Options.Validators;
+using Clinic.Data.Validators;
 
 namespace Clinic.Data;
 
 public static class DataServiceRegistration
 {
-    public static IServiceCollection AddDataLayer(this IServiceCollection services,IConfiguration configuration,IWebHostEnvironment hostEnvironment)
+    public static IServiceCollection AddDataLayer(this IServiceCollection services,IWebHostEnvironment hostEnvironment)
     {
         services.AddOptions<DatabaseOptions>()
-                .Configure(settings => configuration.GetSection(DatabaseOptions.sectionName)
-                .Bind(settings));
+                .BindConfiguration(DatabaseOptions.sectionName);
 
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
@@ -50,13 +48,19 @@ public static class DataServiceRegistration
             }
         });
 
+        // Unit of work
         services.AddScoped<IUnitOfWork, UnitOfWork>();
-        services.AddTransient<IVacationPeriodStatus, VacationPeriodStatusRepository>();
-        services.AddTransient<IDoctorPositionRepository, DoctorPositionRepository>();
-        services.AddTransient<IEmployeePositionRepository, EmployeePositionRepository>();
-        services.AddTransient<IDoctorRepository, DoctorRepository>();
-        services.AddTransient<IAppDbInitializer, AppDbInitializer>();
+
+        // Services
         services.AddTransient<IDateService, DateService>();
+        services.AddScoped<IAppDbInitializerService, AppDbInitializerService>();
+
+        // Repositories
+        services.AddScoped<IVacationPeriodStatus, VacationPeriodStatusRepository>();
+        services.AddScoped<IDoctorPositionRepository, DoctorPositionRepository>();
+        services.AddScoped<IEmployeePositionRepository, EmployeePositionRepository>();
+        services.AddScoped<IDoctorRepository, DoctorRepository>();
+        services.AddScoped<IPersonRepository, PersonRepository>();
 
         return services;
     }
@@ -65,7 +69,7 @@ public static class DataServiceRegistration
     {
         using var scope = serviceProvider.CreateScope();
 
-        IAppDbInitializer initializer = scope.ServiceProvider.GetRequiredService<IAppDbInitializer>();
+        IAppDbInitializerService initializer = scope.ServiceProvider.GetRequiredService<IAppDbInitializerService>();
 
         await initializer.ConnectAsync();
 
