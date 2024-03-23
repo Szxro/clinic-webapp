@@ -7,16 +7,13 @@ public class ValidationException : Exception
     public ValidationException()
         : base("One or more validation failures have occurred.")
     {
-        Errors = new Dictionary<string, Error[]>();       
+        Errors = [];
     }
-    public IDictionary<string, Error[]> Errors { get; }
+    public Error[] Errors { get;}
 
     public ValidationException(Error[] validationErrors)
         : this()
     {
-        Errors = new Dictionary<string, Error[]>()
-        {
-            {"validationErrors", validationErrors}
-        };
+        Errors = validationErrors;
     }
 }
