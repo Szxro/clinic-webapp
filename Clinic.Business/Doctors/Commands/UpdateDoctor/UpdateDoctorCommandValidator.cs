@@ -22,19 +22,6 @@ namespace Clinic.Business.Doctors.Commands.UpdateDoctor
                 .NotEmpty()
                 .WithMessage("The property {PropertyName} cannot be empty.");
 
-            RuleFor(c => c.nif)
-                .NotNull()
-                .NotEmpty()
-                .WithMessage("The property {PropertyName} cannot be empty.");
-
-            RuleFor(c => c.socialNumber)
-                .GreaterThan(0)
-                .WithMessage("The property {PropertyName} must be above zero.");
-
-            RuleFor(c => c.collegueNumber)
-                .GreaterThan(0)
-                .WithMessage("The property {PropertyName} must be above zero.");
-
             RuleFor(c => c.startDate)
                .Must(startDate => DateTime.TryParse(startDate, DateTimeFormatInfo.CurrentInfo, out DateTime _))
                .When(c => !string.IsNullOrEmpty(c.startDate))
