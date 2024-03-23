@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Clinic.Business.DoctorsPosition.Query.GetDoctorPositionByPositionNameQuery;
+namespace Clinic.Business.DoctorsPosition.Query.GetDoctorPositionByPositionName;
 
 public class GetDoctorPositionByPositionNameValidator : AbstractValidator<GetDoctorPositionByPositionNameQuery>
 {

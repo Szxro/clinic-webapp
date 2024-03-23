@@ -1,10 +1,9 @@
-﻿using Clinic.Business.Contracts;
-using Clinic.Data.Contracts;
+﻿using Clinic.Data.Contracts;
 using Clinic.Data.Entities;
 using Clinic.Data.Entities.Common.Primitives;
 using Clinic.Data.Errors;
 
-namespace Clinic.Business.DoctorsPosition.Query.GetDoctorPositionByPositionNameQuery;
+namespace Clinic.Business.DoctorsPosition.Query.GetDoctorPositionByPositionName;
 
 public record GetDoctorPositionByPositionNameQuery(string positionName) : IQuery<Result<DoctorPosition>>;
 
