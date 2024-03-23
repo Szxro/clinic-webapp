@@ -14,7 +14,7 @@ public class Doctor : AuditableEntity
 
     public DateTime StartDate { get; set; }
 
-    public DateTime? EndDate { get; set; }
+    public DateTime EndDate { get; set; } = new DateTime(1999, 01, 01, 0, 0, 0, DateTimeKind.Unspecified);
 
     public Person Person { get; set; } = new(); // One to One
 
