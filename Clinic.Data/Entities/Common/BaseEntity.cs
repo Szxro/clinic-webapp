@@ -8,7 +8,7 @@ public abstract class BaseEntity
     public int Id { get; set; }
 
     [NotMapped]
-    protected readonly List<IEvent> events = new();
+    public readonly List<IEvent> events = new();
 
     public void AddEvent(IEvent @event)
     {
