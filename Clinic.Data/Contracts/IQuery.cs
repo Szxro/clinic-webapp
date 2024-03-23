@@ -2,6 +2,15 @@
 
 using MediatR;
 
-public interface IQuery<out IResult> : IRequest<IResult> { }
+public interface IQuery<out TResponse> : IRequest<TResponse> { }
+
+public interface ICacheQuery { }
+
+public interface ICacheQuery<out TResponse> : IQuery<TResponse>
+{
+    public string cacheKey { get; }
+
+    public TimeSpan expirationTime { get; }
+}
 
 

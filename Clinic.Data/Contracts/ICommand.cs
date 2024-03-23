@@ -5,4 +5,4 @@ namespace Clinic.Data.Contracts;
 
 public interface ICommand : IRequest { }
 
-public interface ICommand<out IResult> : IRequest<IResult> { }
+public interface ICommand<out TResponse> : IRequest<TResponse> { }
