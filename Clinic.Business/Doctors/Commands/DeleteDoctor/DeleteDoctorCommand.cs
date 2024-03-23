@@ -1,42 +1,39 @@
 ﻿using Clinic.Data.Contracts;
-using Clinic.Data.Entities.Common.Primitives;
 using Clinic.Data.Entities;
+using Clinic.Data.Entities.Common.Primitives;
 using Clinic.Data.Errors;
-using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Clinic.Business.Doctors.Commands.DeleteDoctor
+namespace Clinic.Business.Doctors.Commands.DeleteDoctor;
+
+public record DeleteDoctorCommand(string doctorName,
+                                  int collegueNumber) : ICommand<Result>;
+
+public class DeleteDoctorCommandHandler : ICommandHandler<DeleteDoctorCommand, Result>
 {
-    public record DeleteDoctorCommand(int DoctorId) : IRequest<Result>;
+    private readonly IDoctorRepository _doctorRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public class DeleteDoctorCommandHandler : IRequestHandler<DeleteDoctorCommand, Result>
+    public DeleteDoctorCommandHandler(
+        IDoctorRepository doctorRepository,
+        IUnitOfWork unitOfWork)
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IDoctorRepository _doctorRepository;
+        _doctorRepository = doctorRepository;
+        _unitOfWork = unitOfWork;
+    }
 
-        public DeleteDoctorCommandHandler(IUnitOfWork unitOfWork, IDoctorRepository doctorRepository)
+    public async Task<Result> Handle(DeleteDoctorCommand request, CancellationToken cancellationToken)
+    {
+        Doctor? foundDoctor = await _doctorRepository.GetDoctorByNameAndCollegueNumber(request.doctorName,request.collegueNumber);
+
+        if (foundDoctor is null)
         {
-            _unitOfWork = unitOfWork;
-            _doctorRepository = doctorRepository;
+            return Result.Failure(DoctorErrors.NotFoundByName(request.doctorName));
         }
 
-        public async Task<Result> Handle(DeleteDoctorCommand request, CancellationToken cancellationToken)
-        {
-            Doctor doctor = await _doctorRepository.GetByIdAsync(request.DoctorId);
+        _doctorRepository.Remove(foundDoctor);
 
-            if (doctor is null)
-            {
-                return Result.Failure(DoctorErrors.NotFoundById(request.DoctorId));
-            }
+        await _unitOfWork.SaveChangesAsync();
 
-            await _doctorRepository.AddAsync(doctor);
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-            return Result.Success();
-        }
+        return Result.Success();
     }
 }
