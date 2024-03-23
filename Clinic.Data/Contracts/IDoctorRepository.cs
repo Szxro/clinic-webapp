@@ -1,12 +1,22 @@
-﻿using Clinic.Data.Entities;
+﻿using Clinic.Data.DTOs;
+using Clinic.Data.Entities;
+using Clinic.Data.Entities.Common.Primitives;
 
 namespace Clinic.Data.Contracts;
 
 public interface IDoctorRepository
 {
-    Task AddAsync(Doctor doctor);
-    Task<IEnumerable<Doctor>> GetAllAsync();
-    Task DeleteAsync(Doctor doctor);
-    Task<Doctor> GetByIdAsync(int doctorId);
-    Task UpdateAsync(Doctor doctor);
+    void Add(Doctor doctor);
+
+    void Remove(Doctor doctor);
+
+    void Update(Doctor doctor); 
+
+    Task<bool> IsCollegueNumberNotAvaliable(int collegueNumber);
+
+    Task<Doctor?> GetDoctorByNameAndCollegueNumber(string name,int collegueNumber);
+
+    Task<Doctor?> GetDoctorPersonById(int id);
+
+    Task<PagedList<DoctorDto>> GetDoctorsInformation(string? name,string? sortColumn,string? sortOrder,int page,int pageSize);
 }
