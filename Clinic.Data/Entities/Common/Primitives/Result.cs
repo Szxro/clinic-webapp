@@ -30,5 +30,5 @@ public sealed class Result : IResult
 
     public static Result Failure(Error error) => new Result(false, error,null);
 
-    public static Result ValidationFailure(Error error, Error[] validationErrors) => new Result(false, error,validationErrors);
+    public static Result ValidationFailure(Error[] validationErrors) => new Result(false, Error.ValidationError,validationErrors);
 }

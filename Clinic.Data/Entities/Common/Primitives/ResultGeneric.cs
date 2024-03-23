@@ -34,5 +34,5 @@ public class Result<TData> : IResult
 
     public static Result<TData> Failure(Error error) => new(default,error,false,null);
 
-    public static Result<TData> ValidationFailure(Error error, Error[] validationErrors) => new(default, error, false, validationErrors); 
+    public static Result<TData> ValidationFailure(Error[] validationErrors) => new(default, Error.ValidationError, false, validationErrors); 
 }
