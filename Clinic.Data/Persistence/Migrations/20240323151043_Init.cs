@@ -32,7 +32,7 @@ namespace Clinic.Data.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PositionaName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PositionName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -82,7 +82,7 @@ namespace Clinic.Data.Persistence.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CollegueNumber = table.Column<int>(type: "int", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PersonId = table.Column<int>(type: "int", nullable: false),
                     DoctorPositionId = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -270,8 +270,7 @@ namespace Clinic.Data.Persistence.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Doctor_DoctorPositionId",
                 table: "Doctor",
-                column: "DoctorPositionId",
-                unique: true);
+                column: "DoctorPositionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Doctor_PersonId",
@@ -297,8 +296,7 @@ namespace Clinic.Data.Persistence.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Employee_EmployeePositionId",
                 table: "Employee",
-                column: "EmployeePositionId",
-                unique: true);
+                column: "EmployeePositionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employee_PersonId",
