@@ -39,7 +39,7 @@ namespace Clinic.Data.Persistence.Migrations
                     b.Property<int>("DoctorPositionId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("EndDate")
+                    b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("ModifiedAt")
@@ -56,8 +56,7 @@ namespace Clinic.Data.Persistence.Migrations
                     b.HasIndex("CollegueNumber")
                         .IsUnique();
 
-                    b.HasIndex("DoctorPositionId")
-                        .IsUnique();
+                    b.HasIndex("DoctorPositionId");
 
                     b.HasIndex("PersonId")
                         .IsUnique();
@@ -169,8 +168,7 @@ namespace Clinic.Data.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmployeePositionId")
-                        .IsUnique();
+                    b.HasIndex("EmployeePositionId");
 
                     b.HasIndex("PersonId")
                         .IsUnique();
@@ -192,7 +190,7 @@ namespace Clinic.Data.Persistence.Migrations
                     b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("PositionaName")
+                    b.Property<string>("PositionName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -376,8 +374,8 @@ namespace Clinic.Data.Persistence.Migrations
             modelBuilder.Entity("Clinic.Data.Entities.Doctor", b =>
                 {
                     b.HasOne("Clinic.Data.Entities.DoctorPosition", "DoctorPosition")
-                        .WithOne("Doctor")
-                        .HasForeignKey("Clinic.Data.Entities.Doctor", "DoctorPositionId")
+                        .WithMany("Doctors")
+                        .HasForeignKey("DoctorPositionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -421,8 +419,8 @@ namespace Clinic.Data.Persistence.Migrations
             modelBuilder.Entity("Clinic.Data.Entities.Employee", b =>
                 {
                     b.HasOne("Clinic.Data.Entities.EmployeePosition", "EmployeePosition")
-                        .WithOne("Employee")
-                        .HasForeignKey("Clinic.Data.Entities.Employee", "EmployeePositionId")
+                        .WithMany("Employees")
+                        .HasForeignKey("EmployeePositionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -487,14 +485,12 @@ namespace Clinic.Data.Persistence.Migrations
 
             modelBuilder.Entity("Clinic.Data.Entities.DoctorPosition", b =>
                 {
-                    b.Navigation("Doctor")
-                        .IsRequired();
+                    b.Navigation("Doctors");
                 });
 
             modelBuilder.Entity("Clinic.Data.Entities.EmployeePosition", b =>
                 {
-                    b.Navigation("Employee")
-                        .IsRequired();
+                    b.Navigation("Employees");
                 });
 
             modelBuilder.Entity("Clinic.Data.Entities.Patient", b =>
@@ -504,14 +500,11 @@ namespace Clinic.Data.Persistence.Migrations
 
             modelBuilder.Entity("Clinic.Data.Entities.Person", b =>
                 {
-                    b.Navigation("Doctor")
-                        .IsRequired();
+                    b.Navigation("Doctor");
 
-                    b.Navigation("Employee")
-                        .IsRequired();
+                    b.Navigation("Employee");
 
-                    b.Navigation("Patient")
-                        .IsRequired();
+                    b.Navigation("Patient");
 
                     b.Navigation("PersonAddresses");
 
