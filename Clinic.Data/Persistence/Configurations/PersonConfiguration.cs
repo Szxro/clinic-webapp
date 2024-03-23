@@ -10,6 +10,6 @@ public sealed class PersonConfiguration : IEntityTypeConfiguration<Person>
     {
         builder.HasIndex(x => x.NIF).IsUnique();
 
-        builder.HasIndex(x => x.SocialNumber).IsUnique();
+        builder.HasIndex(x => x.SocialNumber).IsUnique(); 
     }
 }
