@@ -1,5 +1,4 @@
-﻿using Clinic.Business.Contracts;
-using Clinic.Data.Contracts;
+﻿using Clinic.Data.Contracts;
 using Clinic.Data.Entities;
 using Clinic.Data.Entities.Common.Primitives;
 using Clinic.Data.Errors;
@@ -19,14 +18,17 @@ public class CreateDoctorCommandHandler : ICommandHandler<CreateDoctorCommand, R
     private readonly IUnitOfWork _unitOfWork;
     private readonly IDoctorPositionRepository _doctorPosition;
     private readonly IDoctorRepository _doctorRepository;
+    private readonly IPersonRepository _personRepository;
 
     public CreateDoctorCommandHandler(IUnitOfWork unitOfWork,
                                       IDoctorPositionRepository doctorPosition,
-                                      IDoctorRepository doctorRepository)
+                                      IDoctorRepository doctorRepository,
+                                      IPersonRepository personRepository)
     {
         _unitOfWork = unitOfWork;
         _doctorPosition = doctorPosition;
         _doctorRepository = doctorRepository;
+        _personRepository = personRepository;
     }
 
     public async Task<Result> Handle(CreateDoctorCommand request, CancellationToken cancellationToken)
@@ -38,9 +40,24 @@ public class CreateDoctorCommandHandler : ICommandHandler<CreateDoctorCommand, R
             return Result.Failure(DoctorPositionErrors.NotFoundByPositionName(request.doctorPosition));
         }
 
+        if (await _doctorRepository.IsCollegueNumberNotAvaliable(request.collegueNumber))
+        {
+            return Result.Failure(DoctorErrors.CollegueNumberNotUnique(request.collegueNumber));   
+        }
+
+        if (await _personRepository.IsNifNotAvaliable(request.nif))
+        {
+            return Result.Failure(PersonErrors.NifNotUnique);
+        }
+
+        if (await _personRepository.IsSocialNumberNotAvaliable(request.socialNumber))
+        {
+            return Result.Failure(PersonErrors.SocialNumberNotUnique);
+        }
+
         _unitOfWork.ChangeContextTrackerToUnchanged(doctorPosition);
 
-        Doctor doctor = new Doctor()
+        Doctor newDoctor = new Doctor()
         {
             Person = new Person()
             {
@@ -51,10 +68,10 @@ public class CreateDoctorCommandHandler : ICommandHandler<CreateDoctorCommand, R
             },
             CollegueNumber = request.collegueNumber,
             DoctorPosition = doctorPosition,
-            StartDate = DateTime.UtcNow,
+            StartDate = DateTime.Parse(request.startDate),
         };
 
-        await _doctorRepository.AddAsync(doctor);
+        _doctorRepository.Add(newDoctor);
 
         await _unitOfWork.SaveChangesAsync();
 
