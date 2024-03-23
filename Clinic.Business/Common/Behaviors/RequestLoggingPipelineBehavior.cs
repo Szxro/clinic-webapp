@@ -6,7 +6,7 @@ namespace Clinic.Business.Common.Behaviors;
 
 internal sealed class RequestLoggingPipelineBehavior<TRequest, TResponse> 
     : IPipelineBehavior<TRequest, TResponse>
-    where TRequest : class
+    where TRequest : notnull
     where TResponse : IResult
 {
     private readonly ILogger<RequestLoggingPipelineBehavior<TRequest, TResponse>> _logger;
