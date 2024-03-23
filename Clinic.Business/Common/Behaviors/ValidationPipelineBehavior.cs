@@ -38,16 +38,17 @@ internal sealed class ValidationPipelineBehavior<TRequest,TResponse>
 
             if (failureMethod is not null)
             {
+                #pragma warning disable CS8600 
+                #pragma warning disable CS8603 
                 return (TResponse)failureMethod
                                  .Invoke(
                                   null,
-                                  [Error.ValidationError, CreateValidationErrors(validationFailures)]);
-            }
+                                  [CreateValidationErrors(validationFailures)]);            }
         }
 
         if (typeof(TResponse) == typeof(Result))
         {
-            return (TResponse)(object)Result.ValidationFailure(Error.ValidationError,CreateValidationErrors(validationFailures));
+            return (TResponse)(object)Result.ValidationFailure(CreateValidationErrors(validationFailures));
         }
 
         throw new ValidationException(CreateValidationErrors(validationFailures));
