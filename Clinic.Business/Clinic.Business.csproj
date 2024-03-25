@@ -15,4 +15,11 @@
     <PackageReference Include="MediatR" Version="12.2.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Patients\Commands\CreatePatient\" />
+    <Folder Include="Patients\Commands\DeletePatient\" />
+    <Folder Include="Patients\Commands\UpdatePatient\" />
+    <Folder Include="Patients\Query\GetPatientsInformation\" />
+  </ItemGroup>
+
 </Project>
