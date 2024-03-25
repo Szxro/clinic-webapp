@@ -18,7 +18,7 @@ namespace Clinic.Data;
 
 public static class DataServiceRegistration
 {
-    public static IServiceCollection AddDataLayer(this IServiceCollection services,IWebHostEnvironment hostEnvironment)
+    public static IServiceCollection AddDataLayer(this IServiceCollection services, IWebHostEnvironment hostEnvironment)
     {
         services.AddOptions<DatabaseOptions>()
                 .BindConfiguration(DatabaseOptions.sectionName);
@@ -29,11 +29,11 @@ public static class DataServiceRegistration
 
         services.AddSingleton<AuditableEntititesInterceptor>();
 
-        services.AddDbContext<AppDbContext>((serviceProvider, options) => 
+        services.AddDbContext<AppDbContext>((serviceProvider, options) =>
         {
             DatabaseOptions databaseOptions = serviceProvider.GetRequiredService<IOptions<DatabaseOptions>>().Value;
 
-            options.UseSqlServer(databaseOptions.ConnectionString,sqlServerOptionsAction =>
+            options.UseSqlServer(databaseOptions.ConnectionString, sqlServerOptionsAction =>
             {
                 sqlServerOptionsAction.CommandTimeout(databaseOptions.CommandTimeout);
 
@@ -61,6 +61,7 @@ public static class DataServiceRegistration
         services.AddScoped<IEmployeePositionRepository, EmployeePositionRepository>();
         services.AddScoped<IDoctorRepository, DoctorRepository>();
         services.AddScoped<IPersonRepository, PersonRepository>();
+        services.AddScoped<IPatientRepository, PatientRepository>(); 
 
         return services;
     }

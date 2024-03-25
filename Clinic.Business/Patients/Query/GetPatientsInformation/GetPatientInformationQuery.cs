@@ -1,14 +1,35 @@
+using Clinic.Business.Doctors.Query.GetDoctorsInformation;
 using Clinic.Data.Contracts;
 using Clinic.Data.DTOs;
 using Clinic.Data.Entities.Common.Primitives;
+using MediatR;
 
 namespace Clinic.Business.Patients.Query.GetPatientInformation
 {
-    public record GetPatientInformationQuery(int patientId) : IQuery<Result<PatientDto>>;
+    public record GetPatientInformationQuery(string? name,
+                                             string? sortColumn,
+                                             string? sortOrder,
+                                             int page,
+                                             int pageSize) : IRequest<Result<PagedList<PatientDto>>>;
 
 
-   
-    
-       
-    
+    public class GetPatientsInformationQueryHandler : IRequestHandler<GetPatientInformationQuery, Result<PagedList<PatientDto>>>
+    {
+        private readonly IPatientRepository _patientRepository;
+
+        public GetPatientsInformationQueryHandler(IPatientRepository patientrepository)
+        {
+            _patientRepository = patientrepository;
+        }
+
+        public async Task<Result<PagedList<PatientDto>>> Handle(GetPatientInformationQuery request, CancellationToken cancellationToken)
+        {
+            PagedList<PatientDto> result = await _patientRepository.GetPatientsInformation(request.name, request.sortColumn, request.sortOrder, request.page, request.pageSize);
+
+            return Result<PagedList<PatientDto>>.Sucess(result);
+        }
+    }
+
+
+
 }

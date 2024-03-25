@@ -11,19 +11,22 @@ public class AppDbInitializerService : IAppDbInitializerService
     private readonly ILogger<AppDbInitializerService> _logger;
     private readonly IVacationPeriodStatus _vacationPeriodStatus;
     private readonly IDoctorPositionRepository _doctorPositionRepository;
+    private readonly IPatientRepository _patientRepository;
     private readonly IEmployeePositionRepository _employeePositionRepository;
 
     public AppDbInitializerService(AppDbContext appDbContext,
                             ILogger<AppDbInitializerService> logger,
                             IVacationPeriodStatus vacationPeriodStatus,
                             IDoctorPositionRepository doctorPositionRepository,
-                            IEmployeePositionRepository employeePositionRepository)
+                            IEmployeePositionRepository employeePositionRepository,
+                            IPatientRepository patientRepository)
     {
         _appDbContext = appDbContext;
         _logger = logger;
         _vacationPeriodStatus = vacationPeriodStatus;
         _doctorPositionRepository = doctorPositionRepository;
         _employeePositionRepository = employeePositionRepository;
+        _patientRepository = patientRepository;
     }
     public async Task ConnectAsync()
     {

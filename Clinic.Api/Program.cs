@@ -1,5 +1,6 @@
 using Clinic.Business;
 using Clinic.Data;
+using Clinic.Data.Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
 {
@@ -15,7 +16,9 @@ var builder = WebApplication.CreateBuilder(args);
 }
 
 
+
 var app = builder.Build();
+
 { 
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
