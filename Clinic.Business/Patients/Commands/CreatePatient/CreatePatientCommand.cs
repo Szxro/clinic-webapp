@@ -3,49 +3,55 @@ using Clinic.Data.Entities;
 using Clinic.Data.Entities.Common.Primitives;
 using Clinic.Data.Errors;
 
-namespace Clinic.Business.Patients.Commands.CreatePatient
+namespace Clinic.Business.Patients.Commands.CreatePatient;
+
+public record CreatePatientCommand(string name,
+                                   string telephone,
+                                   string nif,
+                                   int socialNumber) : ICommand<Result>;
+
+public class CreatePatientCommandHandler : ICommandHandler<CreatePatientCommand, Result>
 {
-    public record CreatePatientCommand(string name,
-                                       string telephone,
-                                       string nif) : ICommand<Result>;
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IPatientRepository _patientRepository;
+    private readonly IPersonRepository _personRepository;
 
-    public class CreatePatientCommandHandler : ICommandHandler<CreatePatientCommand, Result>
+    public CreatePatientCommandHandler(IUnitOfWork unitOfWork,
+                                       IPatientRepository patientRepository,
+                                       IPersonRepository personRepository)
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IPatientRepository _patientRepository;
-        private readonly IPersonRepository _personRepository;
+        _unitOfWork = unitOfWork;
+        _patientRepository = patientRepository;
+        _personRepository = personRepository;
+    }
 
-        public CreatePatientCommandHandler(IUnitOfWork unitOfWork,
-                                           IPatientRepository patientRepository,
-                                           IPersonRepository personRepository)
+    public async Task<Result> Handle(CreatePatientCommand request, CancellationToken cancellationToken)
+    {
+        if (await _personRepository.IsNifNotAvaliable(request.nif))
         {
-            _unitOfWork = unitOfWork;
-            _patientRepository = patientRepository;
-            _personRepository = personRepository;
+            return Result.Failure(PersonErrors.NifNotUnique);
         }
 
-        public async Task<Result> Handle(CreatePatientCommand request, CancellationToken cancellationToken)
+        if (await _personRepository.IsSocialNumberNotAvaliable(request.socialNumber))
         {
-            if (await _personRepository.IsNifNotAvaliable(request.nif))
+            return Result.Failure(PersonErrors.SocialNumberNotUnique);
+        }
+
+        Patient newPatient = new Patient()
+        {
+            Person = new Person()
             {
-                return Result.Failure(PersonErrors.NifNotUnique);
+                Name = request.name,
+                Telephone = request.telephone,
+                NIF = request.nif,
+                SocialNumber = request.socialNumber
             }
+        };
 
-            Patient newPatient = new Patient()
-            {
-                Person = new Person()
-                {
-                    Name = request.name,
-                    Telephone = request.telephone,
-                    NIF = request.nif,
-                }
-            };
+        _patientRepository.Add(newPatient);
 
-            _patientRepository.Add(newPatient);
+        await _unitOfWork.SaveChangesAsync();
 
-            await _unitOfWork.SaveChangesAsync();
-
-            return Result.Success();
-        }
+        return Result.Success();
     }
 }
