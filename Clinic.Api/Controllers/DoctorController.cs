@@ -50,13 +50,13 @@ public class DoctorController : ControllerBase
 
     [HttpGet("doctor/all")]
 
-    public async Task<ActionResult<PagedList<DoctorDto>>> GetDoctorsInformation(string? name,
+    public async Task<ActionResult<PagedList<DoctorResponse>>> GetDoctorsInformation(string? name,
                                                                            string? sortColumn,
                                                                            string? sortOrder,
                                                                            int page,
                                                                            int pageSize)
     {
-        Result<PagedList<DoctorDto>> result = await _sender.Send(new GetDoctorsInformationQuery(name,sortColumn,sortOrder,page,pageSize));
+        Result<PagedList<DoctorResponse>> result = await _sender.Send(new GetDoctorsInformationQuery(name,sortColumn,sortOrder,page,pageSize));
 
         return result.IsSuccess ? Ok(result.Data) : result.ToProblemDetails();
     }
