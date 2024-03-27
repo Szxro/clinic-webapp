@@ -34,7 +34,7 @@ public class DoctorPositionRepository
         await _unitOfWork.SaveChangesAsync();
     }
 
-    public Task<PagedList<DoctorPositionDTO>> GetAllDoctorPositions(string? name, string? sortColumn, string? sortOrder, int page, int pageSize)
+    public Task<PagedList<DoctorPositionResponse>> GetAllDoctorPositions(string? name, string? sortColumn, string? sortOrder, int page, int pageSize)
     {
         IQueryable<DoctorPosition> positions = _dbContext.DoctorPosition;
 
@@ -53,7 +53,7 @@ public class DoctorPositionRepository
             positions = positions.OrderBy(GetSortProperty(sortColumn));
         }
 
-        IQueryable<DoctorPositionDTO> positionDTOs = positions.Select(x => new DoctorPositionDTO() { positionName = x.PositionName });
+        IQueryable<DoctorPositionResponse> positionDTOs = positions.Select(x => new DoctorPositionResponse() { positionName = x.PositionName });
 
         return MakePagedList(positionDTOs, page, pageSize);
 

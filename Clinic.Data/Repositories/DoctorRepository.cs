@@ -31,7 +31,7 @@ public class DoctorRepository
         return await _dbContext.Doctor.Include(x => x.Person).Where(x => x.Id == id).FirstOrDefaultAsync();
     }
 
-    public async Task<PagedList<DoctorDto>> GetDoctorsInformation(string? name, string? sortColumn, string? sortOrder, int page, int pageSize)
+    public async Task<PagedList<DoctorResponse>> GetDoctorsInformation(string? name, string? sortColumn, string? sortOrder, int page, int pageSize)
     {
         IQueryable<Doctor> queryable = _dbContext.Doctor;
 
@@ -50,12 +50,12 @@ public class DoctorRepository
             queryable = queryable.OrderBy(GetSortProperty(sortColumn));
         }
 
-        IQueryable<DoctorDto> doctors = queryable
+        IQueryable<DoctorResponse> doctors = queryable
             .AsNoTracking()
             .Include(x => x.Person)
             .Include(x => x.DoctorPosition)
             .Select(x =>
-            new DoctorDto()
+            new DoctorResponse()
             {
                 Name = x.Person.Name,
                 Telephone = x.Person.Telephone,

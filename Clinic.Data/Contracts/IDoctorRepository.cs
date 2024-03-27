@@ -18,5 +18,5 @@ public interface IDoctorRepository
 
     Task<Doctor?> GetDoctorPersonById(int id);
 
-    Task<PagedList<DoctorDto>> GetDoctorsInformation(string? name,string? sortColumn,string? sortOrder,int page,int pageSize);
+    Task<PagedList<DoctorResponse>> GetDoctorsInformation(string? name,string? sortColumn,string? sortOrder,int page,int pageSize);
 }

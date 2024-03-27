@@ -10,7 +10,7 @@ public interface IDoctorPositionRepository
 
     Task<DoctorPosition?> GetDoctorPositionByPositionName(string positionName);
 
-    Task<PagedList<DoctorPositionDTO>> GetAllDoctorPositions(string? name, string? sortColumn, string? sortOrder, int page, int pageSize);
+    Task<PagedList<DoctorPositionResponse>> GetAllDoctorPositions(string? name, string? sortColumn, string? sortOrder, int page, int pageSize);
 
     void Add(DoctorPosition doctorPosition);
 }
