@@ -9,21 +9,18 @@ using System.Linq.Expressions;
 
 namespace Clinic.Data.Repositories
 {
-    public class PatientRepository : GenericRepository<Patient>, IPatientRepository
+    public class PatientRepository 
+        : GenericRepository<Patient>,
+        IPatientRepository
     {
         public PatientRepository(AppDbContext dbContext) : base(dbContext) { }
-
-        public async Task<Patient> GetById(int patientId)
-        {
-            return await _dbContext.Patient.Include(x => x.Person).Where(x => x.Id == patientId).FirstOrDefaultAsync();
-        }
 
         public async Task<Patient?> GetPatientById(int id)
         {
             return await _dbContext.Patient.Include(x => x.Person).Where(x => x.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<PagedList<PatientDto>> GetPatientsInformation(string? name, string? sortColumn, string? sortOrder, int page, int pageSize)
+        public async Task<PagedList<PatientResponse>> GetPatientsInformation(string? name, string? sortColumn, string? sortOrder, int page, int pageSize)
         {
             IQueryable<Patient> queryable = _dbContext.Patient;
 
@@ -41,19 +38,18 @@ namespace Clinic.Data.Repositories
             {
                 queryable = queryable.OrderBy(GetSortProperty(sortColumn));
             }
-
-            IQueryable<PatientDto> patients = queryable
+                
+            IQueryable<PatientResponse> patients = queryable
                 .AsNoTracking()
                 .Include(x => x.Person)
                 .Select(x =>
-                new PatientDto()
-                {
-                    Name = x.Person.Name,
-                    Telephone = x.Person.Telephone,
-                    NIF = x.Person.NIF,
-                    SocialNumber = x.Person.SocialNumber,
-
-                });
+                            new PatientResponse()
+                            {
+                                Name = x.Person.Name,
+                                Telephone = x.Person.Telephone,
+                                NIF = x.Person.NIF,
+                                SocialNumber = x.Person.SocialNumber,
+                            });
 
             return await MakePagedList(patients, page, pageSize);
 
