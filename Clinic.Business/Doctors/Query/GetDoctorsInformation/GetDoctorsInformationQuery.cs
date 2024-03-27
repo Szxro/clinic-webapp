@@ -8,9 +8,9 @@ public record GetDoctorsInformationQuery(string? name,
                                          string? sortColumn,
                                          string? sortOrder,
                                          int page,
-                                         int pageSize) : IQuery<Result<PagedList<DoctorDto>>>;
+                                         int pageSize) : IQuery<Result<PagedList<DoctorResponse>>>;
 
-public class GetDoctorsInformationQueryHandler : IQueryHandler<GetDoctorsInformationQuery, Result<PagedList<DoctorDto>>>
+public class GetDoctorsInformationQueryHandler : IQueryHandler<GetDoctorsInformationQuery, Result<PagedList<DoctorResponse>>>
 {
     private readonly IDoctorRepository _doctorRepository;
 
@@ -19,10 +19,10 @@ public class GetDoctorsInformationQueryHandler : IQueryHandler<GetDoctorsInforma
         _doctorRepository = doctorRepository;
     }
 
-    public async Task<Result<PagedList<DoctorDto>>> Handle(GetDoctorsInformationQuery request, CancellationToken cancellationToken)
+    public async Task<Result<PagedList<DoctorResponse>>> Handle(GetDoctorsInformationQuery request, CancellationToken cancellationToken)
     {
-        PagedList<DoctorDto> result = await _doctorRepository.GetDoctorsInformation(request.name, request.sortColumn, request.sortOrder, request.page, request.pageSize);
+        PagedList<DoctorResponse> result = await _doctorRepository.GetDoctorsInformation(request.name, request.sortColumn, request.sortOrder, request.page, request.pageSize);
 
-        return Result<PagedList<DoctorDto>>.Sucess(result);
+        return Result<PagedList<DoctorResponse>>.Sucess(result);
     }
 }
