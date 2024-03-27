@@ -1,35 +1,37 @@
 using Clinic.Data.Contracts;
+using Clinic.Data.Entities;
 using Clinic.Data.Entities.Common.Primitives;
 using Clinic.Data.Errors;
 
-namespace Clinic.Business.Patients.Commands.DeletePatient
+namespace Clinic.Business.Patients.Commands.DeletePatient;
+
+public record DeletePatientCommand(int patientId) : ICommand<Result>;
+
+public class DeletePatientCommandHandler : ICommandHandler<DeletePatientCommand, Result>
 {
-    public record DeletePatientCommand(int patientId) : ICommand<Result>;
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IPatientRepository _patientRepository;
 
-    public class DeletePatientCommandHandler : ICommandHandler<DeletePatientCommand, Result>
+    public DeletePatientCommandHandler(IUnitOfWork unitOfWork,
+                                       IPatientRepository patientRepository)
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IPatientRepository _patientRepository;
+        _unitOfWork = unitOfWork;
+        _patientRepository = patientRepository;
+    }
 
-        public DeletePatientCommandHandler(IUnitOfWork unitOfWork, IPatientRepository patientRepository)
+    public async Task<Result> Handle(DeletePatientCommand request, CancellationToken cancellationToken)
+    {
+        Patient? patient = await _patientRepository.GetById(request.patientId);
+
+        if (patient is null)
         {
-            _unitOfWork = unitOfWork;
-            _patientRepository = patientRepository;
+            return Result.Failure(PatientErrors.NotFoundPatients);
         }
 
-        public async Task<Result> Handle(DeletePatientCommand request, CancellationToken cancellationToken)
-        {
-            var patient = await _patientRepository.GetById(request.patientId);
-            if (patient == null)
-            {
-                return Result.Failure(PatientErrors.NotFoundPatients);
-            }
+        _patientRepository.Remove(patient);
 
-            _patientRepository.Remove(patient);
+        await _unitOfWork.SaveChangesAsync();
 
-            await _unitOfWork.SaveChangesAsync();
-
-            return Result.Success();
-        }
+        return Result.Success();
     }
 }

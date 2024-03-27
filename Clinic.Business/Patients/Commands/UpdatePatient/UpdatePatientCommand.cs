@@ -2,44 +2,41 @@ using Clinic.Data.Contracts;
 using Clinic.Data.Entities;
 using Clinic.Data.Entities.Common.Primitives;
 using Clinic.Data.Errors;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace Clinic.Business.Patients.Commands
+namespace Clinic.Business.Patients.Commands;
+
+public record UpdatePatientCommand(
+    int patientId,
+    string name,
+    string telephone) : ICommand<Result>;
+
+public class UpdatePatientCommandHandler : ICommandHandler<UpdatePatientCommand, Result>
 {
-    public record UpdatePatientCommand(
-        int patientId,
-        string name,
-        string telephone) : ICommand<Result>;
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IPatientRepository _patientRepository;
 
-    public class UpdatePatientCommandHandler : ICommandHandler<UpdatePatientCommand, Result>
+    public UpdatePatientCommandHandler(IUnitOfWork unitOfWork, IPatientRepository patientRepository)
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IPatientRepository _patientRepository;
+        _unitOfWork = unitOfWork;
+        _patientRepository = patientRepository;
+    }
 
-        public UpdatePatientCommandHandler(IUnitOfWork unitOfWork, IPatientRepository patientRepository)
+    public async Task<Result> Handle(UpdatePatientCommand request, CancellationToken cancellationToken)
+    {
+        Patient? patient = await _patientRepository.GetPatientById(request.patientId);
+
+        if (patient is null)
         {
-            _unitOfWork = unitOfWork;
-            _patientRepository = patientRepository;
+            return Result.Failure(PatientErrors.NotFoundById(request.patientId));
         }
 
-        public async Task<Result> Handle(UpdatePatientCommand request, CancellationToken cancellationToken)
-        {
-            Patient? patient = await _patientRepository.GetPatientById(request.patientId);
+        patient.Person.Name = request.name;
+        patient.Person.Telephone = request.telephone;
 
-            if (patient is null)
-            {
-                return Result.Failure(PatientErrors.NotFoundById(request.patientId));
-            }
+        _patientRepository.Update(patient);
 
-            patient.Person.Name = request.name;
-            patient.Person.Telephone = request.telephone;
+        await _unitOfWork.SaveChangesAsync();
 
-            _patientRepository.Update(patient);
-
-            await _unitOfWork.SaveChangesAsync();
-
-            return Result.Success();
-        }
+        return Result.Success();
     }
 }
