@@ -1,6 +1,6 @@
 ﻿namespace Clinic.Data.DTOs;
 
-public class DoctorPositionDTO
+public class DoctorPositionResponse
 {
     public string positionName { get; set; } = string.Empty;
 }
