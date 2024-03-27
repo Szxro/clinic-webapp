@@ -1,4 +1,3 @@
-using Clinic.Business.Patients.Commands;
 using Clinic.Business.Patients.Commands.DeletePatient;
 using FluentValidation;
 
