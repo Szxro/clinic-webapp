@@ -10,10 +10,10 @@ namespace Clinic.Business.Patients.Query.GetPatientInformation
                                              string? sortColumn,
                                              string? sortOrder,
                                              int page,
-                                             int pageSize) : IRequest<Result<PagedList<PatientDto>>>;
+                                             int pageSize) : IRequest<Result<PagedList<PatientResponse>>>;
 
 
-    public class GetPatientsInformationQueryHandler : IRequestHandler<GetPatientInformationQuery, Result<PagedList<PatientDto>>>
+    public class GetPatientsInformationQueryHandler : IRequestHandler<GetPatientInformationQuery, Result<PagedList<PatientResponse>>>
     {
         private readonly IPatientRepository _patientRepository;
 
@@ -22,11 +22,11 @@ namespace Clinic.Business.Patients.Query.GetPatientInformation
             _patientRepository = patientrepository;
         }
 
-        public async Task<Result<PagedList<PatientDto>>> Handle(GetPatientInformationQuery request, CancellationToken cancellationToken)
+        public async Task<Result<PagedList<PatientResponse>>> Handle(GetPatientInformationQuery request, CancellationToken cancellationToken)
         {
-            PagedList<PatientDto> result = await _patientRepository.GetPatientsInformation(request.name, request.sortColumn, request.sortOrder, request.page, request.pageSize);
+            PagedList<PatientResponse> result = await _patientRepository.GetPatientsInformation(request.name, request.sortColumn, request.sortOrder, request.page, request.pageSize);
 
-            return Result<PagedList<PatientDto>>.Sucess(result);
+            return Result<PagedList<PatientResponse>>.Sucess(result);
         }
     }
 
