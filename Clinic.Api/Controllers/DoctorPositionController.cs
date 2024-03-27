@@ -6,39 +6,38 @@ using Clinic.Data.Entities.Common.Primitives;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Clinic.Api.Controllers
+namespace Clinic.Api.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class DoctorPositionController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class DoctorPositionController : ControllerBase
+    private readonly ISender _sender;
+
+    public DoctorPositionController(ISender sender)
     {
-        private readonly ISender _sender;
+        _sender = sender;
+    }
 
-        public DoctorPositionController(ISender sender)
-        {
-            _sender = sender;
-        }
+    [HttpPost("doctorposition/create")]
 
-        [HttpPost("doctorposition/create")]
+    public async Task<ActionResult> CreateDoctorPosition(CreateDoctorPositionCommand createDoctorPositionCommand)
+    {
+        Result result = await _sender.Send(createDoctorPositionCommand);
 
-        public async Task<ActionResult> CreateDoctorPosition(CreateDoctorPositionCommand createDoctorPositionCommand)
-        {
-            Result result = await _sender.Send(createDoctorPositionCommand);
+        return result.IsSuccess ? NoContent() : result.ToProblemDetails();
+    }
 
-            return result.IsSuccess ? NoContent() : result.ToProblemDetails();
-        }
+    [HttpGet("doctorposition/all")]
 
-        [HttpGet("doctorposition/all")]
+    public async Task<ActionResult<PagedList<DoctorPositionResponse>>> GetAllDoctorsPosition(string? name,
+                                                                       string? sortColumn,
+                                                                       string? sortOrder,
+                                                                       int page,
+                                                                       int pageSize)
+    {
+        Result<PagedList<DoctorPositionResponse>> result = await _sender.Send(new GetAllDoctorPositionsQuery(name, sortColumn, sortOrder, page, pageSize));
 
-        public async Task<ActionResult<PagedList<DoctorPositionDTO>>> GetAllDoctorsPosition(string? name,
-                                                                           string? sortColumn,
-                                                                           string? sortOrder,
-                                                                           int page,
-                                                                           int pageSize)
-        {
-            Result<PagedList<DoctorPositionDTO>> result = await _sender.Send(new GetAllDoctorPositionsQuery(name, sortColumn, sortOrder, page, pageSize));
-
-            return result.IsSuccess ? Ok(result.Data) : result.ToProblemDetails();
-        }
+        return result.IsSuccess ? Ok(result.Data) : result.ToProblemDetails();
     }
 }
