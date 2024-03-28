@@ -1,6 +1,5 @@
 ﻿using Clinic.Data.Contracts;
 using Clinic.Data.Entities.Common;
-using Clinic.Data.Services;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -28,7 +27,7 @@ public class AuditableEntititesInterceptor : SaveChangesInterceptor
 
     private void UpdateAuditableEntities(DbContext context)
     {
-        var entities = context.ChangeTracker.Entries<AuditableEntity>().Where(x => x.State == EntityState.Added || x.State == EntityState.Modified).ToList();
+        List<EntityEntry<AuditableEntity>> entities = context.ChangeTracker.Entries<AuditableEntity>().Where(x => x.State == EntityState.Added || x.State == EntityState.Modified).ToList();
 
         foreach (EntityEntry<AuditableEntity> entry in entities)
         {
