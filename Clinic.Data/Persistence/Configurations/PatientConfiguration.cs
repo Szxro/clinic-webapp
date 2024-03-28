@@ -4,12 +4,10 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Clinic.Data.Persistence.Configurations;
 
-public sealed class DoctorConfiguration : IEntityTypeConfiguration<Doctor>
+public sealed class PatientConfiguration : IEntityTypeConfiguration<Patient>
 {
-    public void Configure(EntityTypeBuilder<Doctor> builder)
+    public void Configure(EntityTypeBuilder<Patient> builder)
     {
-        builder.HasIndex(x => x.CollegueNumber).IsUnique();
-
         builder.HasQueryFilter(x => !x.IsDeleted);
     }
 }
