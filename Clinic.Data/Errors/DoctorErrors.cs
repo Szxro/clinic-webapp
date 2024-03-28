@@ -12,10 +12,9 @@ namespace Clinic.Data.Errors
             => Error.Conflit("Doctor.CollegueNumberConflit",$"The doctor collegue number {collegueNumber} already exists");
 
         public static Error NotFoundByName(string doctorName)
-            => Error.NotFound("Doctor.NotFoundById", $"The doctor with the id of {doctorName} was not found");
+            => Error.NotFound("Doctor.NotFoundById", $"The doctor with the name of {doctorName} was not found");
 
-        public static readonly Error NotFoundDoctors 
-            = Error.NotFound("Doctor.NotFound","Currently there are not doctors register");
-
+        public static Error NotFoundByNameAndCollegueNumber(string doctorName,int collegueNumber)
+            => Error.NotFound("Doctor.NotFoundById", $"The doctor with the name of {doctorName} and collegue number {collegueNumber} was not found");
     }
 }
