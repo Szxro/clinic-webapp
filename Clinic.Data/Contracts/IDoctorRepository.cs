@@ -6,17 +6,17 @@ namespace Clinic.Data.Contracts;
 
 public interface IDoctorRepository
 {
-    void Add(Doctor doctor);
+    void Add(Doctorresponse doctor);
 
-    void Remove(Doctor doctor);
+    void Remove(Doctorresponse doctor);
 
-    void Update(Doctor doctor); 
+    void Update(Doctorresponse doctor); 
 
     Task<bool> IsCollegueNumberNotAvaliable(int collegueNumber);
 
-    Task<Doctor?> GetDoctorByNameAndCollegueNumber(string name,int collegueNumber);
+    Task<Doctorresponse?> GetDoctorByNameAndCollegueNumber(string name,int collegueNumber);
 
-    Task<Doctor?> GetDoctorPersonById(int id);
+    Task<Doctorresponse?> GetDoctorPersonById(int id);
 
     Task<PagedList<DoctorResponse>> GetDoctorsInformation(string? name,string? sortColumn,string? sortOrder,int page,int pageSize);
 }

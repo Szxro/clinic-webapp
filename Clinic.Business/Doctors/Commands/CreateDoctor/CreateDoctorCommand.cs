@@ -57,7 +57,7 @@ public class CreateDoctorCommandHandler : ICommandHandler<CreateDoctorCommand, R
 
         _unitOfWork.ChangeContextTrackerToUnchanged(doctorPosition);
 
-        Doctor newDoctor = new Doctor()
+        Doctorresponse newDoctor = new Doctorresponse()
         {
             Person = new Person()
             {

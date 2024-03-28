@@ -20,6 +20,7 @@
     <Folder Include="Patients\Commands\DeletePatient\" />
     <Folder Include="Patients\Commands\UpdatePatient\" />
     <Folder Include="Patients\Query\GetPatientsInformation\" />
+    <Folder Include="Patients\Query\GetAllDoctorsFromPatient\" />
   </ItemGroup>
 
 </Project>

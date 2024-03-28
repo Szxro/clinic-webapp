@@ -31,7 +31,7 @@ public class AppDbContext : DbContext
 
     public DbSet<VacationPeriodStatus> VacationPeriodStatus => Set<VacationPeriodStatus>();
 
-    public DbSet<Doctor> Doctor => Set<Doctor>();
+    public DbSet<Doctorresponse> Doctor => Set<Doctorresponse>();
 
     public DbSet<DoctorPosition> DoctorPosition => Set<DoctorPosition>();
 

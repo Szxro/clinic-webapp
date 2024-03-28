@@ -10,12 +10,12 @@ using System.Linq.Expressions;
 namespace Clinic.Data.Repositories;
 
 public class DoctorRepository 
-    : GenericRepository<Doctor>,
+    : GenericRepository<Doctorresponse>,
     IDoctorRepository
 {
     public DoctorRepository(AppDbContext dbContext) : base(dbContext) { }
 
-    public async Task<Doctor?> GetDoctorByNameAndCollegueNumber(string name, int collegueNumber)
+    public async Task<Doctorresponse?> GetDoctorByNameAndCollegueNumber(string name, int collegueNumber)
     {
         return await _dbContext.Doctor.Include(x => x.Person)
                                       .Where(x => x.Person.Name == name && x.CollegueNumber == collegueNumber)
@@ -26,14 +26,14 @@ public class DoctorRepository
     {
         return await _dbContext.Doctor.AsNoTracking().AnyAsync(x => x.CollegueNumber == collegueNumber);
     }
-    public async Task<Doctor?> GetDoctorPersonById(int id)
+    public async Task<Doctorresponse?> GetDoctorPersonById(int id)
     {
         return await _dbContext.Doctor.Include(x => x.Person).Where(x => x.Id == id).FirstOrDefaultAsync();
     }
 
     public async Task<PagedList<DoctorResponse>> GetDoctorsInformation(string? name, string? sortColumn, string? sortOrder, int page, int pageSize)
     {
-        IQueryable<Doctor> queryable = _dbContext.Doctor;
+        IQueryable<Doctorresponse> queryable = _dbContext.Doctor;
 
         if (!string.IsNullOrWhiteSpace(name))
         {
@@ -69,7 +69,7 @@ public class DoctorRepository
 
         return await MakePagedList(doctors, page, pageSize);
 
-        static Expression<Func<Doctor, object>> GetSortProperty(string? sortColumn)
+        static Expression<Func<Doctorresponse, object>> GetSortProperty(string? sortColumn)
             => sortColumn?.ToLower() switch
             {
                 "colleguenumber" => doctor => doctor.CollegueNumber,
