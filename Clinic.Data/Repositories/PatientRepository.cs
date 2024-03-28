@@ -22,7 +22,7 @@ namespace Clinic.Data.Repositories
 
         public async Task<PagedList<PatientResponse>> GetPatientsInformation(string? name, string? sortColumn, string? sortOrder, int page, int pageSize)
         {
-            IQueryable<Patient> queryable = _dbContext.Patient;
+            IQueryable<Patient> queryable = _dbContext.Patient.Include(x => x.Person);
 
             if (!string.IsNullOrWhiteSpace(name))
             {
@@ -41,10 +41,10 @@ namespace Clinic.Data.Repositories
                 
             IQueryable<PatientResponse> patients = queryable
                 .AsNoTracking()
-                .Include(x => x.Person)
                 .Select(x =>
                             new PatientResponse()
                             {
+                                PatientId = x.Id,
                                 Name = x.Person.Name,
                                 Telephone = x.Person.Telephone,
                                 NIF = x.Person.NIF,
