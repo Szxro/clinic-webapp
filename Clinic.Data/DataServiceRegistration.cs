@@ -29,6 +29,8 @@ public static class DataServiceRegistration
 
         services.AddSingleton<AuditableEntititesInterceptor>();
 
+        services.AddSingleton<SoftDeleteEntitiesInterceptor>();
+
         services.AddDbContext<AppDbContext>((serviceProvider, options) =>
         {
             DatabaseOptions databaseOptions = serviceProvider.GetRequiredService<IOptions<DatabaseOptions>>().Value;
@@ -39,7 +41,8 @@ public static class DataServiceRegistration
 
                 sqlServerOptionsAction.EnableRetryOnFailure(databaseOptions.MaxRetryCount);
             })
-            .AddInterceptors(serviceProvider.GetRequiredService<AuditableEntititesInterceptor>());
+            .AddInterceptors(serviceProvider.GetRequiredService<AuditableEntititesInterceptor>())
+            .AddInterceptors(serviceProvider.GetRequiredService<SoftDeleteEntitiesInterceptor>());
 
             if (hostEnvironment.IsDevelopment())
             {
