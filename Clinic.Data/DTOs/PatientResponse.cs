@@ -1,8 +1,10 @@
 ﻿namespace Clinic.Data.DTOs;
 
 public class PatientResponse
-{     
-     public string Name { get; set; } = string.Empty;
+{
+    public int PatientId { get; set; }
+
+    public string Name { get; set; } = string.Empty;
 
     public string Telephone { get; set; } = string.Empty;
 
