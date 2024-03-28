@@ -33,7 +33,9 @@ public class DoctorRepository
 
     public async Task<PagedList<DoctorResponse>> GetDoctorsInformation(string? name, string? sortColumn, string? sortOrder, int page, int pageSize)
     {
-        IQueryable<Doctor> queryable = _dbContext.Doctor;
+        IQueryable<Doctor> queryable = _dbContext.Doctor
+                                                .Include(x => x.Person)
+                                                .Include(x => x.DoctorPosition);
 
         if (!string.IsNullOrWhiteSpace(name))
         {
@@ -52,18 +54,17 @@ public class DoctorRepository
 
         IQueryable<DoctorResponse> doctors = queryable
             .AsNoTracking()
-            .Include(x => x.Person)
-            .Include(x => x.DoctorPosition)
             .Select(x =>
             new DoctorResponse()
             {
+                DoctorId = x.Id,
                 Name = x.Person.Name,
                 Telephone = x.Person.Telephone,
                 NIF = x.Person.NIF,
                 SocialNumber = x.Person.SocialNumber,
                 CollegueNumber = x.CollegueNumber,
-                StartDate = x.StartDate.ToString("yyyy-MM-dd"),
-                EndDate = x.EndDate.ToString("yyyy-MM-dd"), 
+                StartDate = x.StartDate.ToString("dd-MM-yyyy"), 
+                EndDate = x.EndDate.ToString("dd-MM-yyyy"), 
                 PositionName = x.DoctorPosition.PositionName
             });
 
