@@ -9,6 +9,4 @@ public class DoctorConsult : AuditableEntity
     public Doctor Doctor { get; set; } = new();
 
     public DateTime Date { get; set; }
-
-    public DateTime Hour { get; set; }
 }
