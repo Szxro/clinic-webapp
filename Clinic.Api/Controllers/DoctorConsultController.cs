@@ -1,4 +1,5 @@
-﻿using Clinic.Api.Extensions;
+﻿using Asp.Versioning;
+using Clinic.Api.Extensions;
 using Clinic.Business.DoctorsConsult.Commands.CreateDoctorConsult;
 using Clinic.Business.DoctorsConsult.Commands.DeleteDoctorConsult;
 using Clinic.Business.DoctorsConsult.Commands.UpdateDoctorConsult;
@@ -10,7 +11,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Clinic.Api.Controllers;
 
-[Route("api/[controller]")]
+[ApiVersion(1)]
+[Route("api/v{v:apiVersion}/doctorconsult")]
 [ApiController]
 public class DoctorConsultController : ControllerBase
 {
@@ -21,7 +23,7 @@ public class DoctorConsultController : ControllerBase
         _sender = sender;
     }
 
-    [HttpPost("doctorconsult/create")]
+    [HttpPost("create")]
 
     public async Task<ActionResult> CreateDoctorConsult(CreateDoctorConsultCommand createDoctorConsult)
     {
@@ -30,8 +32,7 @@ public class DoctorConsultController : ControllerBase
         return result.IsSuccess ? NoContent() : result.ToProblemDetails();
     }
 
-    [HttpPut("doctorconsult/update")]
-
+    [HttpPut("update")]
     public async Task<ActionResult> UpdateDoctorConsult(UpdateDoctorConsultCommand updateDoctorConsult)
     {
         Result result = await _sender.Send(updateDoctorConsult);
@@ -39,8 +40,7 @@ public class DoctorConsultController : ControllerBase
         return result.IsSuccess ? NoContent() : result.ToProblemDetails();
     }
 
-    [HttpDelete("doctorconsult/delete")]
-
+    [HttpDelete("delete")]
     public async Task<ActionResult> DeleteDoctorConsult(DeleteDoctorConsultCommand deleteDoctorConsult)
     {
         Result result = await _sender.Send(deleteDoctorConsult);
@@ -48,8 +48,7 @@ public class DoctorConsultController : ControllerBase
         return result.IsSuccess ? NoContent() : result.ToProblemDetails();
     }
 
-    [HttpGet("doctorconsult/all")]
-
+    [HttpGet("all")]
     public async Task<ActionResult<PagedList<DoctorConsultResponse>>> GetAllDoctorConsults(string? name,
                                                                            string? sortColumn,
                                                                            string? sortOrder,
