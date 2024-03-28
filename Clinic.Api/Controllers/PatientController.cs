@@ -57,4 +57,13 @@ public class PatientController : ControllerBase
 
         return result.IsSuccess ? Ok(result.Data) : result.ToProblemDetails();
     }
+
+    
+    [HttpGet("patient/{patientId}/doctors")]
+    public async Task<ActionResult<List<DoctorResponse>>> GetAllDoctorsFromPatient(int patientId)
+    {
+        Result<List<DoctorResponse>> result = await _sender.Send(new GetAllDoctorsFromPatientQuery(patientId));
+
+        return result.IsSuccess ? Ok(result.Data) : result.ToProblemDetails();
+    }
 }
