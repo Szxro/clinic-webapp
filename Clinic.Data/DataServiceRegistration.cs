@@ -66,6 +66,7 @@ public static class DataServiceRegistration
         services.AddScoped<IPersonRepository, PersonRepository>();
         services.AddScoped<IPatientRepository, PatientRepository>();
         services.AddScoped<IDoctorConsultRepository, DoctorConsultRepository>();
+        services.AddScoped<IPersonAddressRepository, PersonAddressRepository>();
 
         return services;
     }
