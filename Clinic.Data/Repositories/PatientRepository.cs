@@ -81,5 +81,24 @@ namespace Clinic.Data.Repositories
                     _ => patient => patient.Id
                 };
         }
+
+        public async Task<bool> IsDoctorAssociatedWithPatientAsync(int patientId, int doctorId)
+        {
+            return await _dbContext.DoctorPatient
+                .AnyAsync(dp => dp.PatientId == patientId && dp.DoctorId == doctorId);
+        }
+
+        public async Task<bool> AddDoctorToPatientAsync(int patientId, int doctorId)
+        {
+            var doctorPatient = new DoctorPatient
+            {
+                PatientId = patientId,
+                DoctorId = doctorId
+            };
+
+            _dbContext.DoctorPatient.Add(doctorPatient);
+
+            return await _dbContext.SaveChangesAsync() > 0;
+        }
     }
 }

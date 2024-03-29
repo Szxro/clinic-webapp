@@ -19,5 +19,7 @@ namespace Clinic.Data.Contracts
         Task<Patient?> GetById(int Id, List<string>? includes = null);
 
         Task<List<DoctorResponse>?> GetAllDoctorsFromPatient(int patientId);
+        Task<bool> IsDoctorAssociatedWithPatientAsync(int patientId, int doctorId);
+        Task<bool> AddDoctorToPatientAsync(int patientId, int doctorId);
     }
 }

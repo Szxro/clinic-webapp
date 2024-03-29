@@ -1,7 +1,7 @@
 using Asp.Versioning;
 using Clinic.Api.Extensions;
 using Clinic.Business.Patients.Commands;
-using Clinic.Business.Patients.Commands.AdDoctorToPatient;
+using Clinic.Business.Patients.Commands.AddDoctorToPatient;
 using Clinic.Business.Patients.Commands.CreatePatient;
 using Clinic.Business.Patients.Commands.DeletePatient;
 using Clinic.Business.Patients.Query.GetPatientInformation;
@@ -64,8 +64,20 @@ public class PatientController : ControllerBase
     [HttpPost("patient/{patientId}/doctors/{doctorId}")]
     public async Task<ActionResult> AddDoctorToPatient(int patientId, int doctorId)
     {
-        Result result = await _sender.Send(new AddDoctorToPatientCommand(patientId, doctorId));
-        return result.IsSuccess ? NoContent() : result.ToProblemDetails();
+        var command = new AddDoctorToPatientCommand(patientId, doctorId);
+        var result = await _sender.Send(command);
+
+        if (result.IsSuccess)
+        {
+            return NoContent();
+        }
+
+        return result.Error.ErrorType switch
+        {
+            ErrorType.NotFound => NotFound(result.Error),
+            ErrorType.Conflit => Conflict(result.Error),
+            _ => StatusCode(500, result.Error)
+        };
     }
 
 }
