@@ -64,20 +64,9 @@ public class PatientController : ControllerBase
     [HttpPost("patient/{patientId}/doctors/{doctorId}")]
     public async Task<ActionResult> AddDoctorToPatient(int patientId, int doctorId)
     {
-        var command = new AddDoctorToPatientCommand(patientId, doctorId);
-        var result = await _sender.Send(command);
+        Result result = await _sender.Send(new AddDoctorToPatientCommand(patientId, doctorId));
 
-        if (result.IsSuccess)
-        {
-            return NoContent();
-        }
-
-        return result.Error.ErrorType switch
-        {
-            ErrorType.NotFound => NotFound(result.Error),
-            ErrorType.Conflit => Conflict(result.Error),
-            _ => StatusCode(500, result.Error)
-        };
+        return result.IsSuccess ? NoContent() : result.ToProblemDetails();
     }
 
 }
