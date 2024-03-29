@@ -1,7 +1,7 @@
 using Asp.Versioning;
+using Clinic.Api.ExceptionHandler;
 using Clinic.Business;
 using Clinic.Data;
-using Clinic.Data.Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
 {
@@ -10,6 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddBusinnessLayer();
     builder.Services.AddControllers();
     builder.Services.AddCors();
+    builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+    builder.Services.AddProblemDetails();
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddApiVersioning(options =>
@@ -45,6 +47,8 @@ var app = builder.Build();
     }
 
     app.UseHttpsRedirection();
+
+    app.UseExceptionHandler();
 
     app.UseCors(options => 
     {
