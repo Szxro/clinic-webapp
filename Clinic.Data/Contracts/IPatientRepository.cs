@@ -17,6 +17,7 @@ namespace Clinic.Data.Contracts
         Task<PagedList<PatientResponse>> GetPatientsInformation(string? name, string? sortColumn, string? sortOrder, int page, int pageSize);
 
         Task<Patient?> GetById(int Id, List<string>? includes = null);
-        Task<List<DoctorResponse?>> GetAllDoctorsFromPatient(int patientId);
+
+        Task<List<DoctorResponse>?> GetAllDoctorsFromPatient(int patientId);
     }
 }

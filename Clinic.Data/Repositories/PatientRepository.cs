@@ -15,7 +15,7 @@ namespace Clinic.Data.Repositories
     {
         public PatientRepository(AppDbContext dbContext) : base(dbContext) { }
 
-        public async Task<List<DoctorResponse>> GetAllDoctorsFromPatient(int patientId)
+        public async Task<List<DoctorResponse>?> GetAllDoctorsFromPatient(int patientId)
         {
             return await _dbContext.Patient
                 .Include(x => x.DoctorPatients)
