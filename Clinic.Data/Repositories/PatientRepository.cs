@@ -9,11 +9,29 @@ using System.Linq.Expressions;
 
 namespace Clinic.Data.Repositories
 {
-    public class PatientRepository 
-        : GenericRepository<Patient>,
-        IPatientRepository
+    public class PatientRepository
+                    : GenericRepository<Patient>,
+                    IPatientRepository
     {
         public PatientRepository(AppDbContext dbContext) : base(dbContext) { }
+
+        public async Task<List<DoctorResponse>> GetAllDoctorsFromPatient(int patientId)
+        {
+            return await _dbContext.Patient
+                .Include(x => x.DoctorPatients)
+                .ThenInclude(dp => dp.Doctor)
+                .Where(x => x.Id == patientId)
+                .SelectMany(x => x.DoctorPatients.Select(dp => dp.Doctor))
+                .Select(x =>
+                    new DoctorResponse()
+                    {
+                        Name = x.Person.Name,
+                        Telephone = x.Person.Telephone,
+                        NIF = x.Person.NIF,
+                        SocialNumber = x.Person.SocialNumber,
+                    })
+                .ToListAsync();
+        }
 
         public async Task<Patient?> GetPatientById(int id)
         {
@@ -38,7 +56,7 @@ namespace Clinic.Data.Repositories
             {
                 queryable = queryable.OrderBy(GetSortProperty(sortColumn));
             }
-                
+
             IQueryable<PatientResponse> patients = queryable
                 .AsNoTracking()
                 .Select(x =>
