@@ -1,6 +1,7 @@
 using Asp.Versioning;
 using Clinic.Api.Extensions;
 using Clinic.Business.Patients.Commands;
+using Clinic.Business.Patients.Commands.AdDoctorToPatient;
 using Clinic.Business.Patients.Commands.CreatePatient;
 using Clinic.Business.Patients.Commands.DeletePatient;
 using Clinic.Business.Patients.Query.GetPatientInformation;
@@ -60,12 +61,11 @@ public class PatientController : ControllerBase
         return result.IsSuccess ? Ok(result.Data) : result.ToProblemDetails();
     }
 
-    
-    [HttpGet("patient/{patientId}/doctors")]
-    public async Task<ActionResult<List<DoctorResponse>>> GetAllDoctorsFromPatient(int patientId)
+    [HttpPost("patient/{patientId}/doctors/{doctorId}")]
+    public async Task<ActionResult> AddDoctorToPatient(int patientId, int doctorId)
     {
-        Result<List<DoctorResponse>> result = await _sender.Send(new GetAllDoctorsFromPatientQuery(patientId));
-
-        return result.IsSuccess ? Ok(result.Data) : result.ToProblemDetails();
+        Result result = await _sender.Send(new AddDoctorToPatientCommand(patientId, doctorId));
+        return result.IsSuccess ? NoContent() : result.ToProblemDetails();
     }
+
 }
