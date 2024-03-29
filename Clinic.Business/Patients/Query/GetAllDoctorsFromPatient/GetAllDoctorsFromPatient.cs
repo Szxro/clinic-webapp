@@ -6,11 +6,11 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Clinic.Business.Patients.Query.GetPatientInformation
+namespace Clinic.Business.Patients.Queries.GetAllDoctorsFromPatient
 {
-    public record GetAllDoctorsFromPatientQuery(int patientId) : IRequest<Result<List<DoctorResponse>>>;
+    public record GetAllDoctorsFromPatientQuery(int PatientId) : IRequest<Result<IEnumerable<DoctorResponse>>>;
 
-    public class GetAllDoctorsFromPatientQueryHandler : IRequestHandler<GetAllDoctorsFromPatientQuery, Result<List<DoctorResponse>>>
+    public class GetAllDoctorsFromPatientQueryHandler : IRequestHandler<GetAllDoctorsFromPatientQuery, Result<IEnumerable<DoctorResponse>>>
     {
         private readonly IPatientRepository _patientRepository;
 
@@ -19,13 +19,16 @@ namespace Clinic.Business.Patients.Query.GetPatientInformation
             _patientRepository = patientRepository;
         }
 
-        public async Task<Result<List<DoctorResponse>>> Handle(GetAllDoctorsFromPatientQuery request, CancellationToken cancellationToken)
+        public async Task<Result<IEnumerable<DoctorResponse>>> Handle(GetAllDoctorsFromPatientQuery request, CancellationToken cancellationToken)
         {
-            List<DoctorResponse?> doctors = await _patientRepository.GetAllDoctorsFromPatient(request.patientId);
+            var patient = await _patientRepository.GetById(request.PatientId);
+            if (patient == null)
+            {
+                return Result<IEnumerable<DoctorResponse>>.Failure(Error.NotFound("Patient.NotFound", "Patient not found"));
+            }
 
-            List<DoctorResponse> validDoctors = doctors.Where(d => d != null).Select(d => d!).ToList();
-
-            return Result<List<DoctorResponse>>.Sucess(validDoctors);
+            var doctors = await _patientRepository.GetAllDoctorsFromPatient(request.PatientId);
+            return Result<IEnumerable<DoctorResponse>>.Sucess(doctors!);
         }
     }
 }
