@@ -6,7 +6,7 @@ public class DoctorConsult : AuditableEntity
 {
     public int DoctorId { get; set; }
 
-    public Doctorresponse Doctor { get; set; } = new();
+    public Doctor Doctor { get; set; } = new();
 
     public DateTime Date { get; set; }
 }

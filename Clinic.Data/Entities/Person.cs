@@ -18,7 +18,7 @@ public class Person : AuditableEntity
 
     public int SocialNumber { get; set; }  
 
-    public Doctorresponse? Doctor { get; set; }  // One to One
+    public Doctor? Doctor { get; set; }  // One to One
 
     public Employee? Employee { get; set; } 
 

@@ -6,10 +6,10 @@ public class DoctorPosition : AuditableEntity
 {
     public DoctorPosition()
     {
-        Doctors = new HashSet<Doctorresponse>();
+        Doctors = new HashSet<Doctor>();
     }
 
     public string PositionName { get; set; } = string.Empty;
 
-    public ICollection<Doctorresponse> Doctors { get; set; }
+    public ICollection<Doctor> Doctors { get; set; }
 }

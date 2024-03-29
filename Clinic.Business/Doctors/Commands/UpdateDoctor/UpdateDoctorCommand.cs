@@ -38,7 +38,7 @@ public class UpdateDoctorCommandHandler : ICommandHandler<UpdateDoctorCommand, R
 
         _unitOfWork.ChangeContextTrackerToUnchanged(doctorPosition);
 
-        Doctorresponse? doctor = await _doctorRepository.GetDoctorPersonById(request.doctorId);
+        Doctor? doctor = await _doctorRepository.GetDoctorPersonById(request.doctorId);
 
         if (doctor is null)
         {

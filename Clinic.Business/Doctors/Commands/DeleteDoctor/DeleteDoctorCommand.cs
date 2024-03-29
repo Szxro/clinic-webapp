@@ -23,7 +23,7 @@ public class DeleteDoctorCommandHandler : ICommandHandler<DeleteDoctorCommand, R
 
     public async Task<Result> Handle(DeleteDoctorCommand request, CancellationToken cancellationToken)
     {
-        Doctorresponse? foundDoctor = await _doctorRepository.GetDoctorByNameAndCollegueNumber(request.doctorName,request.collegueNumber);
+        Doctor? foundDoctor = await _doctorRepository.GetDoctorByNameAndCollegueNumber(request.doctorName,request.collegueNumber);
 
         if (foundDoctor is null)
         {

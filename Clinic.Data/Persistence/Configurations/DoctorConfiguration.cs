@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Clinic.Data.Persistence.Configurations;
 
-public sealed class DoctorConfiguration : IEntityTypeConfiguration<Doctorresponse>
+public sealed class DoctorConfiguration : IEntityTypeConfiguration<Doctor>
 {
-    public void Configure(EntityTypeBuilder<Doctorresponse> builder)
+    public void Configure(EntityTypeBuilder<Doctor> builder)
     {
         builder.HasIndex(x => x.CollegueNumber).IsUnique();
 
