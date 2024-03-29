@@ -10,8 +10,8 @@ using System.Linq.Expressions;
 namespace Clinic.Data.Repositories
 {
     public class PatientRepository
-                    : GenericRepository<Patient>,
-                    IPatientRepository
+                        : GenericRepository<Patient>,
+                        IPatientRepository
     {
         public PatientRepository(AppDbContext dbContext) : base(dbContext) { }
 
@@ -70,16 +70,34 @@ namespace Clinic.Data.Repositories
                             });
 
             return await MakePagedList(patients, page, pageSize);
-
-            static Expression<Func<Patient, object>> GetSortProperty(string? sortColumn)
-                => sortColumn?.ToLower() switch
-                {
-                    "name" => patient => patient.Person.Name,
-                    "nif" => patient => patient.Person.NIF,
-                    "socialnumber" => patient => patient.Person.SocialNumber,
-                    "telephone" => patient => patient.Person.Telephone,
-                    _ => patient => patient.Id
-                };
         }
+
+        public async Task AddDoctorToPatient(int patientId, int doctorId)
+        {
+            var patient = await _dbContext.Patient.FindAsync(patientId);
+            var doctor = await _dbContext.Doctor.FindAsync(doctorId);
+
+            if (patient != null && doctor != null)
+            {
+                var doctorPatient = new DoctorPatient
+                {
+                    PatientId = patientId,
+                    DoctorId = doctorId
+                };
+
+                _dbContext.DoctorPatient.Add(doctorPatient);
+                await _dbContext.SaveChangesAsync();
+            }
+        }
+
+        static Expression<Func<Patient, object>> GetSortProperty(string? sortColumn)
+            => sortColumn?.ToLower() switch
+            {
+                "name" => patient => patient.Person.Name,
+                "nif" => patient => patient.Person.NIF,
+                "socialnumber" => patient => patient.Person.SocialNumber,
+                "telephone" => patient => patient.Person.Telephone,
+                _ => patient => patient.Id
+            };
     }
 }
