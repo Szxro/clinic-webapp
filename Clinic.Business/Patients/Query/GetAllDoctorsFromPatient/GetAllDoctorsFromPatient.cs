@@ -2,33 +2,31 @@ using Clinic.Data.Contracts;
 using Clinic.Data.DTOs;
 using Clinic.Data.Entities.Common.Primitives;
 using MediatR;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace Clinic.Business.Patients.Queries.GetAllDoctorsFromPatient
+namespace Clinic.Business.Patients.Queries.GetAllDoctorsFromPatient;
+
+public record GetAllDoctorsFromPatientQuery(int PatientId) : IRequest<Result<List<DoctorResponse>>>;
+
+public class GetAllDoctorsFromPatientQueryHandler : IRequestHandler<GetAllDoctorsFromPatientQuery, Result<List<DoctorResponse>>>
 {
-    public record GetAllDoctorsFromPatientQuery(int PatientId) : IRequest<Result<IEnumerable<DoctorResponse>>>;
+    private readonly IPatientRepository _patientRepository;
 
-    public class GetAllDoctorsFromPatientQueryHandler : IRequestHandler<GetAllDoctorsFromPatientQuery, Result<IEnumerable<DoctorResponse>>>
+    public GetAllDoctorsFromPatientQueryHandler(IPatientRepository patientRepository)
     {
-        private readonly IPatientRepository _patientRepository;
+        _patientRepository = patientRepository;
+    }
 
-        public GetAllDoctorsFromPatientQueryHandler(IPatientRepository patientRepository)
+    public async Task<Result<List<DoctorResponse>>> Handle(GetAllDoctorsFromPatientQuery request, CancellationToken cancellationToken)
+    {
+        var patient = await _patientRepository.GetById(request.PatientId);
+
+        if (patient is null)
         {
-            _patientRepository = patientRepository;
+            return Result<List<DoctorResponse>>.Failure(Error.NotFound("Patient.NotFound", "Patient not found"));
         }
 
-        public async Task<Result<IEnumerable<DoctorResponse>>> Handle(GetAllDoctorsFromPatientQuery request, CancellationToken cancellationToken)
-        {
-            var patient = await _patientRepository.GetById(request.PatientId);
-            if (patient == null)
-            {
-                return Result<IEnumerable<DoctorResponse>>.Failure(Error.NotFound("Patient.NotFound", "Patient not found"));
-            }
+        var doctors = await _patientRepository.GetAllDoctorsFromPatient(request.PatientId);
 
-            var doctors = await _patientRepository.GetAllDoctorsFromPatient(request.PatientId);
-            return Result<IEnumerable<DoctorResponse>>.Sucess(doctors!);
-        }
+        return Result<List<DoctorResponse>>.Sucess(doctors!);
     }
 }
