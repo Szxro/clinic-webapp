@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using Clinic.Business;
 using Clinic.Data;
 using Clinic.Data.Contracts;
@@ -11,6 +12,19 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddCors();
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddApiVersioning(options =>
+    {
+        options.DefaultApiVersion = new ApiVersion(1);
+        options.ReportApiVersions = true;
+        options.AssumeDefaultVersionWhenUnspecified = true;
+        options.ApiVersionReader = ApiVersionReader.Combine(
+            new UrlSegmentApiVersionReader(),
+            new HeaderApiVersionReader("X-Api-Version"));
+    }).AddApiExplorer(options =>
+    {
+        options.GroupNameFormat = "'v'V";
+        options.SubstituteApiVersionInUrl = true;
+    });
     builder.Services.AddSwaggerGen();
     builder.Configuration.AddUserSecrets<Program>(optional:false,reloadOnChange:true);
 }

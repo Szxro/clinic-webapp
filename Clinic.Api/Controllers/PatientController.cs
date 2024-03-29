@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using Clinic.Api.Extensions;
 using Clinic.Business.Patients.Commands;
 using Clinic.Business.Patients.Commands.CreatePatient;
@@ -10,7 +11,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Clinic.Api.Controllers;
 
-[Route("api/[controller]")]
+[ApiVersion(1)]
+[Route("api/v{v:apiVersion}/patient")]
 [ApiController]
 public class PatientController : ControllerBase
 {
@@ -21,7 +23,7 @@ public class PatientController : ControllerBase
         _sender = sender;
     }
 
-    [HttpPost("patient/create")]
+    [HttpPost("create")]
     public async Task<ActionResult> CreatePatient(CreatePatientCommand createPatient)
     {
         Result result = await _sender.Send(createPatient);
@@ -29,7 +31,7 @@ public class PatientController : ControllerBase
         return result.IsSuccess ? NoContent() : result.ToProblemDetails();
     }
 
-    [HttpPut("patient/update")]
+    [HttpPut("update")]
     public async Task<ActionResult> UpdatePatient(UpdatePatientCommand updatePatient)
     {
         Result result = await _sender.Send(updatePatient);
@@ -37,7 +39,7 @@ public class PatientController : ControllerBase
         return result.IsSuccess ? NoContent() : result.ToProblemDetails();
     }
 
-    [HttpDelete("patient/remove")]
+    [HttpDelete("remove")]
     public async Task<ActionResult> DeletePatient(DeletePatientCommand deletePatient)
     {
         Result result = await _sender.Send(deletePatient);
@@ -46,7 +48,7 @@ public class PatientController : ControllerBase
     }
   
 
-    [HttpGet("patient/all")]
+    [HttpGet("all")]
     public async Task<ActionResult<PagedList<PatientResponse>>> GetPatientInformation(string? name,
                                                                                  string? sortColumn,
                                                                                  string? sortOrder,

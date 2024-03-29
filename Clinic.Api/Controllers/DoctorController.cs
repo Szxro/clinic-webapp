@@ -1,4 +1,5 @@
-﻿using Clinic.Api.Extensions;
+﻿using Asp.Versioning;
+using Clinic.Api.Extensions;
 using Clinic.Business.Doctors.Commands.CreateDoctor;
 using Clinic.Business.Doctors.Commands.DeleteDoctor;
 using Clinic.Business.Doctors.Commands.UpdateDoctor;
@@ -10,7 +11,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Clinic.Api.Controllers;
 
-[Route("api/[controller]")]
+[ApiVersion(1)]
+[Route("api/v{v:apiVersion}/doctor")]
 [ApiController]
 public class DoctorController : ControllerBase
 {
@@ -21,7 +23,7 @@ public class DoctorController : ControllerBase
         _sender = sender;
     }
 
-    [HttpPost("doctor/create")]
+    [HttpPost("create")]
 
     public async Task<ActionResult> CreateDoctor(CreateDoctorCommand createDoctor)
     {
@@ -30,7 +32,7 @@ public class DoctorController : ControllerBase
         return result.IsSuccess ? NoContent() : result.ToProblemDetails();
     }
 
-    [HttpDelete("doctor/remove")]
+    [HttpDelete("remove")]
 
     public async Task<ActionResult> DeleteDoctor(DeleteDoctorCommand deleteDoctor)
     {
@@ -39,7 +41,7 @@ public class DoctorController : ControllerBase
         return result.IsSuccess ? NoContent() : result.ToProblemDetails();
     }
 
-    [HttpPut("doctor/update")]
+    [HttpPut("update")]
 
     public async Task<ActionResult> UpdateDoctor(UpdateDoctorCommand updateDoctor)
     {
@@ -48,7 +50,7 @@ public class DoctorController : ControllerBase
         return result.IsSuccess ? NoContent() : result.ToProblemDetails();
     }
 
-    [HttpGet("doctor/all")]
+    [HttpGet("all")]
 
     public async Task<ActionResult<PagedList<DoctorResponse>>> GetDoctorsInformation(string? name,
                                                                            string? sortColumn,

@@ -1,4 +1,5 @@
-﻿using Clinic.Api.Extensions;
+﻿using Asp.Versioning;
+using Clinic.Api.Extensions;
 using Clinic.Business.DoctorsPosition.Commands.CreateDoctorPosition;
 using Clinic.Business.DoctorsPosition.Query.GetAllDoctorPositions;
 using Clinic.Data.DTOs;
@@ -8,7 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Clinic.Api.Controllers;
 
-[Route("api/[controller]")]
+[ApiVersion(1)]
+[Route("api/v{v:apiVersion}/doctorposition")]
 [ApiController]
 public class DoctorPositionController : ControllerBase
 {
@@ -19,7 +21,7 @@ public class DoctorPositionController : ControllerBase
         _sender = sender;
     }
 
-    [HttpPost("doctorposition/create")]
+    [HttpPost("create")]
 
     public async Task<ActionResult> CreateDoctorPosition(CreateDoctorPositionCommand createDoctorPositionCommand)
     {
@@ -28,7 +30,7 @@ public class DoctorPositionController : ControllerBase
         return result.IsSuccess ? NoContent() : result.ToProblemDetails();
     }
 
-    [HttpGet("doctorposition/all")]
+    [HttpGet("all")]
 
     public async Task<ActionResult<PagedList<DoctorPositionResponse>>> GetAllDoctorsPosition(string? name,
                                                                        string? sortColumn,
