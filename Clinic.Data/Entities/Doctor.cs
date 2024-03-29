@@ -2,9 +2,9 @@
 
 namespace Clinic.Data.Entities;
 
-public class Doctorresponse : AuditableEntity
+public class Doctor : AuditableEntity
 {
-    public Doctorresponse()
+    public Doctor()
     {
         DoctorConsults = new HashSet<DoctorConsult>();
         DoctorPatients = new HashSet<DoctorPatient>();
