@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="DoctorsPatient\Query\" />
     <Folder Include="Patients\Commands\CreatePatient\" />
     <Folder Include="Patients\Commands\DeletePatient\" />
     <Folder Include="Patients\Commands\UpdatePatient\" />
