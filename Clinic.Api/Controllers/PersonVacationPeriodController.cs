@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Clinic.Api.Controllers;
 
 [ApiVersion(1)]
-[Route("api/v{v:apiVersion}/person-vacation-periods")]
+[Route("api/v{v:apiVersion}/personvacationperiods")]
 [ApiController]
 public class PersonVacationPeriodController : ControllerBase
 {
@@ -21,14 +21,14 @@ public class PersonVacationPeriodController : ControllerBase
         _sender = sender;
     }
 
-    [HttpPost]
+    [HttpPost("create")]
     public async Task<ActionResult> CreatePersonVacationPeriod(CreatePersonVacationPeriodCommand createPersonVacationPeriod)
     {
         Result result = await _sender.Send(createPersonVacationPeriod);
         return result.IsSuccess ? NoContent() : result.ToProblemDetails();
     }
 
-    //[HttpPut("{id}")]
+    //[HttpPut("update")]
     //public async Task<ActionResult> UpdatePersonVacationPeriod(int id, UpdatePersonVacationPeriodCommand command)
     //{
     //    if (id != command.PersonVacationPeriodId)
@@ -40,14 +40,14 @@ public class PersonVacationPeriodController : ControllerBase
     //    return result.IsSuccess ? NoContent() : result.ToProblemDetails();
     //}
 
-    //[HttpDelete("{id}")]
+    //[HttpDelete("delete")]
     //public async Task<ActionResult> DeletePersonVacationPeriod(int id)
     //{
     //    Result result = await _sender.Send(new DeletePersonVacationPeriodCommand(id));
     //    return result.IsSuccess ? NoContent() : result.ToProblemDetails();
     //}
 
-    //[HttpGet]
+    //[HttpGet("all")]
     //public async Task<ActionResult<PagedList<PersonVacationPeriodResponse>>> GetPersonVacationPeriods(
     //    [FromQuery] int personId,
     //    [FromQuery] string? sortColumn,
