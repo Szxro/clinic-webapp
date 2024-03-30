@@ -2,6 +2,7 @@
 using Clinic.Data.Contracts;
 using Clinic.Data.Entities;
 using Clinic.Data.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace Clinic.Data.Repositories;
 
@@ -26,4 +27,11 @@ public class VacationPeriodStatusRepository : GenericRepository<VacationPeriodSt
 
         await _unitOfWork.SaveChangesAsync();   
     }
+
+    public async Task<VacationPeriodStatus?> GetById(int id)
+    {
+        return await _dbContext.Set<VacationPeriodStatus>()
+            .FirstOrDefaultAsync(vps => vps.Id == id);
+    }
+
 }
