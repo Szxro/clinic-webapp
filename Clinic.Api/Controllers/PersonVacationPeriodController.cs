@@ -3,6 +3,7 @@ using Clinic.Api.Extensions;
 using Clinic.Business.PersonVacationPeriods.Commands.CreatePersonVacationPeriod;
 using Clinic.Business.PersonVacationPeriods.Commands.DeletePersonVacationPeriod;
 using Clinic.Business.PersonVacationPeriods.Commands.UpdatePersonVacationPeriod;
+using Clinic.Business.PersonVacationPeriods.Query.GetPersonVacationPeriodsInformation;
 using Clinic.Data.Common;
 using Clinic.Data.DTOs;
 using Clinic.Data.Entities.Common.Primitives;
@@ -44,17 +45,17 @@ public class PersonVacationPeriodController : ControllerBase
         return result.IsSuccess ? NoContent() : result.ToProblemDetails();
     }
 
-    //[HttpGet("all")]
-    //public async Task<ActionResult<PagedList<PersonVacationPeriodResponse>>> GetPersonVacationPeriods(
-    //    [FromQuery] int personId,
-    //    [FromQuery] string? sortColumn,
-    //    [FromQuery] string? sortOrder,
-    //    [FromQuery] int page = 1,
-    //    [FromQuery] int pageSize = 10)
-    //{
-    //    Result<PagedList<PersonVacationPeriodResponse>> result = await _sender.Send(
-    //        new GetPersonVacationPeriodsQuery(personId, sortColumn, sortOrder, page, pageSize));
+    [HttpGet("all")]
+    public async Task<ActionResult<PagedList<PersonVacationPeriodResponse>>> GetPersonVacationPeriods(
+        [FromQuery] int personId,
+        [FromQuery] string? sortColumn,
+        [FromQuery] string? sortOrder,
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 10)
+    {
+        Result<PagedList<PersonVacationPeriodResponse>> result = await _sender.Send(
+            new GetPersonVacationPeriodsQuery(personId, sortColumn, sortOrder, page, pageSize));
 
-    //    return result.IsSuccess ? Ok(result.Data) : result.ToProblemDetails();
-    //}
+        return result.IsSuccess ? Ok(result.Data) : result.ToProblemDetails();
+    }
 }
