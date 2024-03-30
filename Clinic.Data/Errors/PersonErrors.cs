@@ -12,4 +12,7 @@ public static class PersonErrors
 
     public static Error NotFoundByNameAndNif(string name, string nif)
         => Error.NotFound("Person.NotFound",$"The person with the name of {name} and NIF of {nif} was not found");
+
+    public static Error NotFoundById(int id)
+        => Error.NotFound("Person.NotFound", $"The person with the id of {id} was not found");
 }
