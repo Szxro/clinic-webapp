@@ -29,5 +29,19 @@ public class PersonVacationPeriodRepository : GenericRepository<PersonVacationPe
             .ToListAsync();
     }
 
+    public async Task AddPersonVacationPeriodAsync(PersonVacationPeriod personVacationPeriod)
+    {
+        await _dbContext.Set<PersonVacationPeriod>().AddAsync(personVacationPeriod);
+    }
+
+    public void UpdatePersonVacationPeriod(PersonVacationPeriod personVacationPeriod)
+    {
+        _dbContext.Set<PersonVacationPeriod>().Update(personVacationPeriod);
+    }
+
+    public void DeletePersonVacationPeriod(PersonVacationPeriod personVacationPeriod)
+    {
+        _dbContext.Set<PersonVacationPeriod>().Remove(personVacationPeriod);
+    }
 
 }
