@@ -1,6 +1,7 @@
 ﻿using Asp.Versioning;
 using Clinic.Api.Extensions;
 using Clinic.Business.PersonVacationPeriods.Commands.CreatePersonVacationPeriod;
+using Clinic.Business.PersonVacationPeriods.Commands.DeletePersonVacationPeriod;
 using Clinic.Business.PersonVacationPeriods.Commands.UpdatePersonVacationPeriod;
 using Clinic.Data.Common;
 using Clinic.Data.DTOs;
@@ -36,12 +37,12 @@ public class PersonVacationPeriodController : ControllerBase
         return result.IsSuccess ? NoContent() : result.ToProblemDetails();
     }
 
-    //[HttpDelete("delete")]
-    //public async Task<ActionResult> DeletePersonVacationPeriod(int id)
-    //{
-    //    Result result = await _sender.Send(new DeletePersonVacationPeriodCommand(id));
-    //    return result.IsSuccess ? NoContent() : result.ToProblemDetails();
-    //}
+    [HttpDelete("delete")]
+    public async Task<ActionResult> DeletePersonVacationPeriod(int id)
+    {
+        Result result = await _sender.Send(new DeletePersonVacationPeriodCommand(id));
+        return result.IsSuccess ? NoContent() : result.ToProblemDetails();
+    }
 
     //[HttpGet("all")]
     //public async Task<ActionResult<PagedList<PersonVacationPeriodResponse>>> GetPersonVacationPeriods(
