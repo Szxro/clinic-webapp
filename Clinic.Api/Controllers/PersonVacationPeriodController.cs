@@ -1,6 +1,7 @@
 ﻿using Asp.Versioning;
 using Clinic.Api.Extensions;
 using Clinic.Business.PersonVacationPeriods.Commands.CreatePersonVacationPeriod;
+using Clinic.Business.PersonVacationPeriods.Commands.UpdatePersonVacationPeriod;
 using Clinic.Data.Common;
 using Clinic.Data.DTOs;
 using Clinic.Data.Entities.Common.Primitives;
@@ -28,17 +29,12 @@ public class PersonVacationPeriodController : ControllerBase
         return result.IsSuccess ? NoContent() : result.ToProblemDetails();
     }
 
-    //[HttpPut("update")]
-    //public async Task<ActionResult> UpdatePersonVacationPeriod(int id, UpdatePersonVacationPeriodCommand command)
-    //{
-    //    if (id != command.PersonVacationPeriodId)
-    //    {
-    //        return BadRequest();
-    //    }
-
-    //    Result result = await _sender.Send(command);
-    //    return result.IsSuccess ? NoContent() : result.ToProblemDetails();
-    //}
+    [HttpPut("update")]
+    public async Task<ActionResult> UpdatePersonVacationPeriod(UpdatePersonVacationPeriodCommand updatePersonVacationPeriod)
+    {
+        Result result = await _sender.Send(updatePersonVacationPeriod);
+        return result.IsSuccess ? NoContent() : result.ToProblemDetails();
+    }
 
     //[HttpDelete("delete")]
     //public async Task<ActionResult> DeletePersonVacationPeriod(int id)
