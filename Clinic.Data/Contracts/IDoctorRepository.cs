@@ -10,7 +10,9 @@ public interface IDoctorRepository
 
     void Remove(Doctor doctor);
 
-    void Update(Doctor doctor); 
+    void Update(Doctor doctor);
+
+    Task<Doctor?> GetById(int doctorId,List<string>? includes = null);
 
     Task<bool> IsCollegueNumberNotAvaliable(int collegueNumber);
 
