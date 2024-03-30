@@ -19,6 +19,12 @@ public class PersonRepository
         return await _dbContext.Person.Where(x => x.Name == name && x.NIF == nif).FirstOrDefaultAsync();
     }
 
+    public async Task<Person?> GetById(int id)
+    {
+        return await _dbContext.Person.FindAsync(id);
+    }
+
+
     public async Task<bool> IsNifNotAvaliable(string nif)
     {
         return await _dbContext.Person.AsNoTracking().AnyAsync(x => x.NIF == nif);

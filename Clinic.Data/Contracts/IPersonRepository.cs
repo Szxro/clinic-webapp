@@ -9,4 +9,6 @@ public interface IPersonRepository
     Task<bool> IsSocialNumberNotAvaliable(int socialNumber);
 
     Task<Person?> GetPersonByNameAndNif(string name,string nif);
+
+    Task<Person?> GetById(int id);
 }
