@@ -104,14 +104,6 @@ async function makeHttpRequest(
     /* empty */
   }
 
-  if (!isValidStatusCode(response.status)) {
-    return {
-      status: response.status,
-      code: getStatusCodeDescription(response.status),
-      url: response.url,
-    };
-  }
-
   return {
     status: response.status,
     url: response.url,
@@ -127,8 +119,10 @@ function getStatusCodeDescription(status: number): string {
       return "ERR_NOT_FOUND";
     case 409:
       return "ERR_CONFLIT";
-    default:
+    case 500:
       return "ERR_INTERNAL_SERVER_ERROR";
+    default:
+      return "ERR_UNKNONW_SERVER_ERROR";
   }
 }
 
