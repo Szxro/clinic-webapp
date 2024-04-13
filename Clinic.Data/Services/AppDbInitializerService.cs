@@ -95,7 +95,7 @@ public class AppDbInitializerService : IAppDbInitializerService
     {
         if (!_appDbContext.EmployeePosition.Any())
         {
-            await _employeePositionRepository.AddDefaultEmployeePositions();
+            await _employeePositionRepository.AddDefaultEmployeePosition();
         }
     }
 }

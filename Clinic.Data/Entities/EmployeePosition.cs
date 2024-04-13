@@ -6,7 +6,7 @@ public class EmployeePosition : AuditableEntity
 {
     public EmployeePosition()
     {
-        Employees = new HashSet<Employee>();    
+        Employees = new HashSet<Employee>();
     }
 
     public string PositionName { get; set; } = string.Empty;
