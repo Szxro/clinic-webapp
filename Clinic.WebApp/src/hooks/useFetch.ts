@@ -4,7 +4,7 @@ import {
   FetchHookResponse,
   FetchHookReturn,
 } from "../models/fetchHook.model";
-import Guard from "../utils/guard";
+import Guard from "../shared/utils/guard";
 
 function useFetch<TResponse>({
   url,
