@@ -3,44 +3,9 @@ import {
   FetchWrapperDefaultResponse,
   FetchWrapperError,
   FetchWrapperOptions,
-  FetchWrapperResponse,
 } from "../models/wrapper.model";
 import Guard from "./guard";
 import { isProblemDetails } from "./predicates";
-
-async function makeGetHttpResponse<TResponse>(
-  options: FetchWrapperOptions
-): Promise<FetchWrapperResponse<TResponse>> {
-  Guard.Against.EmptyString(options.url, "Invalid URL,check and try again");
-
-  if (options.params !== undefined) {
-    const response = await fetch(
-      options.url + "?" + new URLSearchParams(options.params),
-      { method: "GET" }
-    );
-
-    const jsonResult = await response.json();
-
-    return {
-      status: response.status,
-      data: jsonResult,
-      url: response.url,
-      ok: response.ok,
-      params: "" + new URLSearchParams(options.params),
-    };
-  }
-
-  const response = await fetch(options.url, { method: "GET" });
-
-  const jsonResult = await response.json();
-
-  return {
-    status: response.status,
-    data: jsonResult,
-    url: response.url,
-    ok: response.ok,
-  };
-}
 
 async function makeHttpRequest(
   httpMethod: ValidHttpMethods,
@@ -130,4 +95,4 @@ function isValidStatusCode(status: number): boolean {
   return [200, 204].includes(status);
 }
 
-export { makeGetHttpResponse, makeHttpRequest };
+export { makeHttpRequest };
