@@ -1,9 +1,9 @@
-import { ValidHttpMethods } from "../models/http-method.model";
+import { ValidHttpMethods } from "../../models/http-method.model";
 import {
   FetchWrapperDefaultResponse,
   FetchWrapperError,
   FetchWrapperOptions,
-} from "../models/wrapper.model";
+} from "../../models/wrapper.model";
 import Guard from "./guard";
 import { isProblemDetails } from "./predicates";
 

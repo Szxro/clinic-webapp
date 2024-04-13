@@ -1,5 +1,5 @@
-import { ProblemDetails } from "../models/problem-details.model";
-import { FetchWrapperError } from "../models/wrapper.model";
+import { ProblemDetails } from "../../models/problem-details.model";
+import { FetchWrapperError } from "../../models/wrapper.model";
 
 export const isProblemDetails = (
   response: unknown
