@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { Toaster, toast } from "sonner";
 import { useFetch } from "../../hooks/useFetch";
 import { useHttpMethod } from "../../hooks/useHttpMethod";
-import { DoctorPosition } from "../../models/doctorPosition.model";
+import { DoctorPosition } from "../../models/doctor.model";
 import { UpdateDoctorForm } from "../../models/input.model";
 import { PagedList } from "../../models/pagedList.model";
 import Form from "../../shared/components/Form";

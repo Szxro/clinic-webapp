@@ -12,6 +12,7 @@ function DeleteDoctor(): React.JSX.Element {
   const {
     handleSubmit,
     register,
+    reset,
     formState: { errors },
   } = useForm<DeleteDoctorForm>();
 
@@ -27,6 +28,7 @@ function DeleteDoctor(): React.JSX.Element {
       return;
     } else {
       toast.success("Success");
+      reset();
       return;
     }
   });
