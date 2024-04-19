@@ -5,7 +5,7 @@ using Clinic.Data.Errors;
 
 namespace Clinic.Business.Patients.Commands.DeletePatient;
 
-public record DeletePatientCommand(int patientId) : ICommand<Result>;
+public record DeletePatientCommand(string name,string nif) : ICommand<Result>;
 
 public class DeletePatientCommandHandler : ICommandHandler<DeletePatientCommand, Result>
 {
@@ -21,11 +21,11 @@ public class DeletePatientCommandHandler : ICommandHandler<DeletePatientCommand,
 
     public async Task<Result> Handle(DeletePatientCommand request, CancellationToken cancellationToken)
     {
-        Patient? patient = await _patientRepository.GetById(request.patientId);
+        Patient? patient = await _patientRepository.GetPatientByNameAndNif(request.name,request.nif);
 
         if (patient is null)
         {
-            return Result.Failure(PatientErrors.NotFoundPatients);
+            return Result.Failure(PatientErrors.NotFoundByNameAndNif(request.name,request.nif));
         }
 
         _patientRepository.Remove(patient);

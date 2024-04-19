@@ -38,6 +38,11 @@ namespace Clinic.Data.Repositories
             return await _dbContext.Patient.Include(x => x.Person).Where(x => x.Id == id).FirstOrDefaultAsync();
         }
 
+        public async Task<Patient?> GetPatientByNameAndNif(string name, string nif)
+        {
+            return await _dbContext.Patient.Include(x => x.Person).Where(x => x.Person.Name == name && x.Person.NIF == nif).FirstOrDefaultAsync();
+        }
+
         public async Task<PagedList<PatientResponse>> GetPatientsInformation(string? name, string? sortColumn, string? sortOrder, int page, int pageSize)
         {
             IQueryable<Patient> queryable = _dbContext.Patient.Include(x => x.Person);

@@ -8,14 +8,14 @@ namespace Clinic.Business.Doctors.Commands.UpdateDoctor
     {
         public DoctorCommandValidator()
         {
-            RuleFor(c => c.doctorId)
-            .GreaterThan(0)
-            .WithMessage("The property {PropertyName} must be above zero.");
-
-            RuleFor(c => c.name)
+            RuleFor(c => c.doctorName)
                 .NotNull()
                 .NotEmpty()
                 .WithMessage("The property {PropertyName} cannot be empty.");
+
+            RuleFor(c => c.collegueNumber)
+                .NotNull().WithMessage("The property {PropertyName} cant be null")
+                .NotEmpty().WithMessage("The property {PropertyName} cant be empty");
 
             RuleFor(c => c.telephone)
                 .NotNull()

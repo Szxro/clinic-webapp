@@ -14,6 +14,8 @@ public interface IPatientRepository
 
     Task<Patient?> GetPatientById(int id);
 
+    Task<Patient?> GetPatientByNameAndNif(string name,string nif);
+
     Task<PagedList<PatientResponse>> GetPatientsInformation(string? name, string? sortColumn, string? sortOrder, int page, int pageSize);
 
     Task<Patient?> GetById(int Id, List<string>? includes = null);

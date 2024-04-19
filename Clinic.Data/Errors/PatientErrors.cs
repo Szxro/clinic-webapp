@@ -10,6 +10,9 @@ namespace Clinic.Data.Errors
         public static Error NotFoundByName(string patientName)
             => Error.NotFound("Patient.NotFoundByName", $"The patient with the name {patientName} was not found");
 
+        public static Error NotFoundByNameAndNif(string patientName,string patientNif)
+            => Error.NotFound("Patient.NotFoundByNameAndNif", $"The patient with the name {patientName} and nif {patientNif} was not found");
+
         public static readonly Error NotFoundPatients
             = Error.NotFound("Patient.NotFound", "Currently there are no patients registered");
     }

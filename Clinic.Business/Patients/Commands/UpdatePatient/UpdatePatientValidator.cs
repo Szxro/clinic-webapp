@@ -7,8 +7,8 @@ namespace Clinic.Business.Patients.Validators
     {
         public UpdatePatientValidator()
         {
-            RuleFor(command => command.patientId)
-                .NotEmpty().WithMessage("Patient ID is required.");
+            RuleFor(command => command.nif)
+                .NotEmpty().WithMessage("Patient Nif is required.");
 
             RuleFor(command => command.name)
                 .NotEmpty().WithMessage("Name is required.")

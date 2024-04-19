@@ -81,4 +81,9 @@ public class DoctorRepository
                 _ => doctor => doctor.Id
             };
     }
+
+    public async Task<Doctor?> GetDoctorPersonByNameAndCollegueNumber(string name, int collegueNumber)
+    {
+        return await _dbContext.Doctor.Include(x => x.Person).Where(x => x.Person.Name == name && x.CollegueNumber == collegueNumber).FirstOrDefaultAsync();
+    }
 }

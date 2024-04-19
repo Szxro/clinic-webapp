@@ -7,8 +7,8 @@ using Clinic.Data.Errors;
 namespace Clinic.Business.Doctors.Commands.UpdateDoctor;
 
 public record UpdateDoctorCommand(
-   int doctorId,
-   string name,
+   string doctorName,
+   int collegueNumber,
    string telephone,
    string startDate,
    string doctorPosition) : ICommand<Result>;
@@ -38,14 +38,14 @@ public class UpdateDoctorCommandHandler : ICommandHandler<UpdateDoctorCommand, R
 
         _unitOfWork.ChangeContextTrackerToUnchanged(doctorPosition);
 
-        Doctor? doctor = await _doctorRepository.GetDoctorPersonById(request.doctorId);
+        Doctor? doctor = await _doctorRepository.GetDoctorPersonByNameAndCollegueNumber(request.doctorName,request.collegueNumber);
 
         if (doctor is null)
         {
-            return Result.Failure(DoctorErrors.NotFoundById(request.doctorId));
+            return Result.Failure(DoctorErrors.NotFoundByNameAndCollegueNumber(request.doctorName,request.collegueNumber));
         }
 
-        doctor.Person.Name = request.name;
+        doctor.Person.Name = request.doctorName;
         doctor.Person.Telephone = request.telephone;
         doctor.DoctorPosition = doctorPosition;
         doctor.StartDate = DateTime.Parse(request.startDate);

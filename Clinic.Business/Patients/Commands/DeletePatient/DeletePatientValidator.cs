@@ -7,8 +7,13 @@ namespace Clinic.Business.Patients.Validators
     {
         public DeletePatientValidator()
         {
-            RuleFor(command => command.patientId)
-                .NotEmpty().WithMessage("Patient ID is required.");
+            RuleFor(command => command.name)
+                .NotEmpty().WithMessage("The Patient Name cant be empty.")
+                .NotNull().WithMessage("The Patient Name cant be null");
+
+            RuleFor(command => command.nif)
+                .NotEmpty().WithMessage("The Patient Nif cant be empty.")
+                .NotNull().WithMessage("The Patient Nif cant be null");
         }
     }
 }

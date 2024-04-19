@@ -6,8 +6,8 @@ using Clinic.Data.Errors;
 namespace Clinic.Business.Patients.Commands;
 
 public record UpdatePatientCommand(
-    int patientId,
     string name,
+    string nif,
     string telephone) : ICommand<Result>;
 
 public class UpdatePatientCommandHandler : ICommandHandler<UpdatePatientCommand, Result>
@@ -23,11 +23,11 @@ public class UpdatePatientCommandHandler : ICommandHandler<UpdatePatientCommand,
 
     public async Task<Result> Handle(UpdatePatientCommand request, CancellationToken cancellationToken)
     {
-        Patient? patient = await _patientRepository.GetPatientById(request.patientId);
+        Patient? patient = await _patientRepository.GetPatientByNameAndNif(request.name,request.nif);
 
         if (patient is null)
         {
-            return Result.Failure(PatientErrors.NotFoundById(request.patientId));
+            return Result.Failure(PatientErrors.NotFoundByNameAndNif(request.name,request.nif));
         }
 
         patient.Person.Name = request.name;
@@ -38,5 +38,6 @@ public class UpdatePatientCommandHandler : ICommandHandler<UpdatePatientCommand,
         await _unitOfWork.SaveChangesAsync();
 
         return Result.Success();
+
     }
 }

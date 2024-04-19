@@ -20,5 +20,7 @@ public interface IDoctorRepository
 
     Task<Doctor?> GetDoctorPersonById(int id);
 
+    Task<Doctor?> GetDoctorPersonByNameAndCollegueNumber(string name,int collegueNumber);
+
     Task<PagedList<DoctorResponse>> GetDoctorsInformation(string? name,string? sortColumn,string? sortOrder,int page,int pageSize);
 }
