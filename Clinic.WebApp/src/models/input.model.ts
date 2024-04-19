@@ -38,6 +38,19 @@ export interface CreatePersonAddressForm {
   personNif: string;
 }
 
+export interface UpdatePersonAddressForm {
+  addressId: number;
+  personName: string;
+  personNif: string;
+  streetNumber: number;
+  addressLine1: string;
+  addressLine2: string;
+  city: string;
+  population: number;
+  postalCode: number;
+  province: string;
+}
+
 export interface DeletePersonAddressForm {
   addressId: number;
 }
