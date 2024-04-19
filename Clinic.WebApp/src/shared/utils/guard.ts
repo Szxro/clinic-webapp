@@ -19,12 +19,14 @@ class Guard {
 
   public EmptyObjectEntry(input: object, message?: string): object {
     const entries = Object.entries(input).reduce(
-      (acc: string[], value: string[]) => [...acc, ...value],
+      (acc: unknown[], value: unknown[]) => [...acc, ...value],
       []
     );
 
     for (const entry of entries) {
-      if (entry.length > 0) continue;
+      if (typeof entry === "string" && entry.length > 0) continue;
+
+      if (entry instanceof Date && entry.toString().length > 0) continue;
 
       throw new Error("The required object entry are empty" ?? message);
     }
