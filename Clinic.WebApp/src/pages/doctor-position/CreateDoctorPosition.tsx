@@ -12,6 +12,7 @@ function CreateDoctorPosition(): React.JSX.Element {
     handleSubmit,
     formState: { errors },
     register,
+    reset,
   } = useForm<CreateDoctorPositionForm>();
 
   const { postData, error } = useHttpMethod<CreateDoctorPositionForm>({
@@ -31,6 +32,7 @@ function CreateDoctorPosition(): React.JSX.Element {
       return;
     } else {
       toast.success("Success");
+      reset();
       return;
     }
   });
