@@ -1,25 +1,24 @@
 import { useForm } from "react-hook-form";
 import { Toaster, toast } from "sonner";
 import { useHttpMethod } from "../../hooks/useHttpMethod";
-import { CreatePatientForm } from "../../models/input.model";
+import { UpdatePatientForm } from "../../models/input.model";
 import Form from "../../shared/components/Form";
 import InputErrorMessage from "../../shared/components/InputErrorMessage";
 import { enviroments } from "../../shared/enviroments/enviroments.dev";
 import { isHttpMethodHookError } from "../../shared/utils";
 
-function CreatePatient(): React.JSX.Element {
+function UpdatePatient(): React.JSX.Element {
   const {
     handleSubmit,
-    register,
     formState: { errors },
-  } = useForm<CreatePatientForm>();
+    register,
+    reset,
+  } = useForm<UpdatePatientForm>();
 
-  const { postData, error } = useHttpMethod<CreatePatientForm>({
-    url: enviroments.createPatient,
-  });
+  const { postData, error } = useHttpMethod({ url: enviroments.updatePatient });
 
   const onSubmit = handleSubmit(async (data) => {
-    const response = await postData({ body: data, method: "POST" });
+    const response = await postData({ body: data, method: "PUT" });
 
     if (error !== null) {
       toast.error(error.message);
@@ -31,6 +30,7 @@ function CreatePatient(): React.JSX.Element {
       return;
     } else {
       toast.success("Success");
+      reset();
       return;
     }
   });
@@ -38,7 +38,7 @@ function CreatePatient(): React.JSX.Element {
   return (
     <>
       <Toaster />
-      <Form title="Create Patient Form" onSubmit={onSubmit}>
+      <Form title="Update Patient Form" onSubmit={onSubmit}>
         <div className="mb-3">
           <label htmlFor="name" className="form-label">
             Name
@@ -100,32 +100,9 @@ function CreatePatient(): React.JSX.Element {
           />
           {errors.nif && <InputErrorMessage message={errors.nif.message} />}
         </div>
-        <div className="mb-3">
-          <label htmlFor="socialNumber" className="form-label">
-            Social Number
-          </label>
-          <input
-            type="number"
-            className="form-control"
-            id="socialNumber"
-            {...register("socialNumber", {
-              required: {
-                value: true,
-                message: "The Social Number is required",
-              },
-              pattern: {
-                value: /^\d{9}$/,
-                message: "The Social Number is invalid",
-              },
-            })}
-          />
-          {errors.socialNumber && (
-            <InputErrorMessage message={errors.socialNumber.message} />
-          )}
-        </div>
       </Form>
     </>
   );
 }
 
-export default CreatePatient;
+export default UpdatePatient;
