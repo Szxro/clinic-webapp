@@ -1,5 +1,5 @@
 import { BounceLoader } from "react-spinners";
-import { LoaderProps } from "../../models/components.props";
+import { LoaderProps } from "../../models/props/components.props";
 
 function Loader({ isLoading, color, size }: LoaderProps): React.JSX.Element {
   return (
