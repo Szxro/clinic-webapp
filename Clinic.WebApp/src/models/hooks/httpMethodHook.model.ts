@@ -14,5 +14,7 @@ export interface FetchHookResponse<TResponse> {
 
 export type FetchHookReturn<TResponse> = [
   FetchHookResponse<TResponse> | null,
-  boolean
+  boolean,
+  Error | null,
+  (err: Error | null) => void
 ];
