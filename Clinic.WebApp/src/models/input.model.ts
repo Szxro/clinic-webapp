@@ -7,6 +7,16 @@ export interface CreateDoctorForm {
   startDate: Date | null;
   doctorPosition: string;
 }
+export interface CreateEmployeeForm {
+  name: string;
+  telephone: string;
+  nif: string;
+  socialNumber: string;
+  collegueNumber: string;
+  startDate: Date | null;
+  employeeNumber: string;
+  employeePosition: string;
+}
 
 export interface DeleteDoctorForm {
   doctorName: string;

@@ -4,7 +4,7 @@ export interface Employee {
   telephone: string;
   nif: string;
   socialNumber: number;
-  collegueNumber: number;
+  employeeNumber: number;
   startDate: string;
   endDate: string;
   positionName: string;
