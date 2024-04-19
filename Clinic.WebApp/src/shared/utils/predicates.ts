@@ -1,5 +1,5 @@
+import { PostHookError } from "../../models/hooks/postHook.model";
 import { ProblemDetails } from "../../models/problem-details.model";
-import { FetchWrapperError } from "../../models/wrapper.model";
 
 export const isProblemDetails = (
   response: unknown
@@ -7,8 +7,8 @@ export const isProblemDetails = (
   return (response as ProblemDetails).status !== undefined;
 };
 
-export const isWrapperError = (
+export const isHttpMethodHookError = (
   response: unknown
-): response is FetchWrapperError => {
-  return (response as FetchWrapperError).message !== undefined;
+): response is PostHookError => {
+  return (response as PostHookError).message !== undefined;
 };

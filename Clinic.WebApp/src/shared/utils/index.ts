@@ -1,4 +1,2 @@
-import { isWrapperError } from "./predicates";
-import { makeHttpRequest } from "./wrapper";
-
-export { isWrapperError, makeHttpRequest };
+import { isHttpMethodHookError } from "./predicates";
+export { isHttpMethodHookError };
