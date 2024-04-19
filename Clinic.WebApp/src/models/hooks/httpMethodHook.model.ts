@@ -1,20 +1,27 @@
-export interface FetchHookOptions {
+import { Error } from "../problem-details.model";
+
+export interface PostHookOptions<TRequest> {
   url: string;
   params?: Record<string, string>;
   headers?: Record<string, string>;
+  body?: TRequest;
 }
 
-export interface FetchHookResponse<TResponse> {
+export interface PostHookError {
+  code: string;
   status: number;
-  data: TResponse;
+  message?: string;
+  params?: string;
+  ok: boolean;
+  url: string;
+  errors?: PostError[];
+}
+
+export interface PostHookDefaultResponse {
+  status: number;
   url: string;
   ok: boolean;
   params?: string;
 }
 
-export type FetchHookReturn<TResponse> = [
-  FetchHookResponse<TResponse> | null,
-  boolean,
-  Error | null,
-  (err: Error | null) => void
-];
+type PostError = Omit<Error, "errorType">;
