@@ -3,7 +3,7 @@ import {
   PostHookDefaultResponse,
   PostHookError,
   PostHookOptions,
-} from "../models/hooks/postHook.model";
+} from "../models/hooks/httpMethodHook.model";
 import { ValidHttpMethods } from "../models/utils/http-method.model";
 import Guard from "../shared/utils/guard";
 import { isProblemDetails } from "../shared/utils/predicates";
