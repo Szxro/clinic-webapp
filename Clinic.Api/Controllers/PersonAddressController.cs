@@ -50,9 +50,9 @@ public class PersonAddressController : ControllerBase
 
     [HttpGet("all")]
 
-    public async Task<ActionResult<PagedList<PersonAddressResponse>>> GetAllPersonsAddress(string? personName, string? sortColumn, string? sortOrder, int page, int pageSize)
+    public async Task<ActionResult<PagedList<PersonAddressResponse>>> GetAllPersonsAddress(string? name, string? sortColumn, string? sortOrder, int page, int pageSize)
     {
-        Result<PagedList<PersonAddressResponse>> result = await _sender.Send(new GetAllPersonsAddressQuery(personName,sortColumn,sortOrder,page,pageSize));
+        Result<PagedList<PersonAddressResponse>> result = await _sender.Send(new GetAllPersonsAddressQuery(name, sortColumn,sortOrder,page,pageSize));
 
         return result.IsSuccess ? Ok(result.Data) : result.ToProblemDetails();  
     }

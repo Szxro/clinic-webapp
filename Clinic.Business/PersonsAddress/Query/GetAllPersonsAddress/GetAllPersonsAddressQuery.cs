@@ -5,7 +5,7 @@ using System.Windows.Input;
 
 namespace Clinic.Business.PersonsAddress.Query.GetAllPersonsAddress;
 
-public record GetAllPersonsAddressQuery(string? personName,
+public record GetAllPersonsAddressQuery(string? name,
                                         string? sortColumn,
                                         string? sortOrder,
                                         int page,
@@ -22,7 +22,7 @@ public class GetAllPersonsAddressQueryHandler : IQueryHandler<GetAllPersonsAddre
 
     public async Task<Result<PagedList<PersonAddressResponse>>> Handle(GetAllPersonsAddressQuery request, CancellationToken cancellationToken)
     {
-        PagedList<PersonAddressResponse> result = await _personAddressRepository.GetAllPersonsAddress(request.personName,request.sortColumn,request.sortOrder,request.page,request.pageSize);
+        PagedList<PersonAddressResponse> result = await _personAddressRepository.GetAllPersonsAddress(request.name,request.sortColumn,request.sortOrder,request.page,request.pageSize);
 
         return Result<PagedList<PersonAddressResponse>>.Sucess(result);
     }
