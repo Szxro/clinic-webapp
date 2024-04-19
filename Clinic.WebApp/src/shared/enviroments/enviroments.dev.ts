@@ -11,4 +11,5 @@ export const enviroments = {
   deletePatient: "https://localhost:7252/api/v1/patient/remove",
   createEmployee: "https://localhost:7252/api/v1/employee/create",
   getAllEmployeePosition: "https://localhost:7252/api/v1/employeeposition/all",
+  deleteEmployee: "https://localhost:7252/api/v1/employee/remove",
 };
