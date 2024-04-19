@@ -17,4 +17,5 @@ export const enviroments = {
   createPersonAddress: "https://localhost:7252/api/v1/personaddress/create",
   deletePersonAddress: "https://localhost:7252/api/v1/personaddress/remove",
   updatePersonAddress: "https://localhost:7252/api/v1/personaddress/update",
+  getAllPersonAddress: "https://localhost:7252/api/v1/personaddress/all",
 };

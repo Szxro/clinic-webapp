@@ -5,7 +5,6 @@ import { enviroments } from "../../shared/enviroments/enviroments.dev";
 
 function GetEmployeePosition(): React.JSX.Element {
   const columns: TableColumn[] = [
-    { label: "ID", key: "id" },
     { label: "Position Name", key: "positionName" },
   ];
 
