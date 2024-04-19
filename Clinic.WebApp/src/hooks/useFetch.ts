@@ -3,7 +3,7 @@ import {
   FetchHookOptions,
   FetchHookResponse,
   FetchHookReturn,
-} from "../models/fetchHook.model";
+} from "../models/hooks/httpMethodHook.model";
 import Guard from "../shared/utils/guard";
 
 function useFetch<TResponse>({
@@ -13,19 +13,27 @@ function useFetch<TResponse>({
 }: FetchHookOptions): FetchHookReturn<TResponse> {
   const [data, setData] = useState<FetchHookResponse<TResponse> | null>(null);
   const [isLoading, setLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
     const getData = async () => {
       setLoading(true);
-      const request = await fetchRequest<TResponse>(url, params, headers);
-      setData(request);
-      setLoading(false);
+      try {
+        const request = await fetchRequest<TResponse>(url, params, headers);
+        setData(request);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          setError(error);
+        }
+      } finally {
+        setLoading(false);
+      }
     };
     getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return [data, isLoading];
+  return [data, isLoading, error, setError];
 }
 
 const fetchRequest = async <TResponse>(
@@ -48,6 +56,10 @@ const fetchRequest = async <TResponse>(
       headers: new Headers(headers || { accept: "text/plain" }),
     });
 
+    if (!request.ok) {
+      throw new Error("Invalid request, check and try again");
+    }
+
     return {
       status: request.status,
       data: await request.json(),
@@ -61,6 +73,10 @@ const fetchRequest = async <TResponse>(
     method: "GET",
     headers: new Headers(headers || { accept: "text/plain" }),
   });
+
+  if (!request.ok) {
+    throw new Error("Invalid request, check and try again");
+  }
 
   return {
     status: request.status,
