@@ -15,6 +15,7 @@ import CreateEmployee from "../../pages/employee/CreateEmployee";
 import DeleteEmployee from "../../pages/employee/DeleteEmployee";
 import CreateEmployeePosition from "../../pages/employee-position/CreateEmployeePosition";
 import GetEmployeePosition from "../../pages/employee-position/GetEmployeePosition";
+import CreatePersonAddress from "../../pages/person-address/CreatePersonAddress";
 
 const router: Route[] = [
   { path: "/", element: <Home /> },
@@ -32,6 +33,7 @@ const router: Route[] = [
   { path: "/employee/delete", element: <DeleteEmployee /> },
   { path: "/employeeposition/create", element: <CreateEmployeePosition /> },
   { path: "/employeeposition/get", element: <GetEmployeePosition /> },
+  { path: "/personaddress/create", element: <CreatePersonAddress /> },
   { path: "*", element: <NotFound /> },
 ];
 
@@ -91,6 +93,12 @@ const routes: Routes = {
     {
       path: "/employeeposition/get",
       pathChildName: "Get",
+    },
+  ],
+  PersonAddress: [
+    {
+      path: "/personaddress/create",
+      pathChildName: "Create",
     },
   ],
 };

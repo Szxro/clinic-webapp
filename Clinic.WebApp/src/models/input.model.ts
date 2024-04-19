@@ -26,6 +26,18 @@ export interface CreateEmployeePositionForm {
   positionName: string;
 }
 
+export interface CreatePersonAddressForm {
+  streetNumber: number;
+  addressLine1: string;
+  addressLine2: string;
+  city: string;
+  population: number;
+  postalCode: number;
+  province: string;
+  personName: string;
+  personNif: string;
+}
+
 export interface DeleteDoctorForm {
   doctorName: string;
   collegueNumber: string;
