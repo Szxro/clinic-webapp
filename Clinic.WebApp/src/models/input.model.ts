@@ -38,6 +38,10 @@ export interface CreatePersonAddressForm {
   personNif: string;
 }
 
+export interface DeletePersonAddressForm {
+  addressId: number;
+}
+
 export interface DeleteDoctorForm {
   doctorName: string;
   collegueNumber: string;
