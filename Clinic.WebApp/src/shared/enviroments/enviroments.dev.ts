@@ -12,4 +12,6 @@ export const enviroments = {
   createEmployee: "https://localhost:7252/api/v1/employee/create",
   getAllEmployeePosition: "https://localhost:7252/api/v1/employeeposition/all",
   deleteEmployee: "https://localhost:7252/api/v1/employee/remove",
+  createEmployeePosition:
+    "https://localhost:7252/api/v1/employeeposition/create",
 };

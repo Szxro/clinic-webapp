@@ -22,6 +22,10 @@ export interface DeleteEmployeeForm {
   employeeNumber: number;
 }
 
+export interface CreateEmployeePositionForm {
+  positionName: string;
+}
+
 export interface DeleteDoctorForm {
   doctorName: string;
   collegueNumber: string;

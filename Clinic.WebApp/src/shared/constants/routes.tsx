@@ -13,6 +13,7 @@ import UpdatePatient from "../../pages/patient/UpdatePatient";
 import NotFound from "../components/NotFound";
 import CreateEmployee from "../../pages/employee/CreateEmployee";
 import DeleteEmployee from "../../pages/employee/DeleteEmployee";
+import CreateEmployeePosition from "../../pages/employee-position/CreateEmployeePosition";
 
 const router: Route[] = [
   { path: "/", element: <Home /> },
@@ -28,6 +29,7 @@ const router: Route[] = [
   { path: "/patient/delete", element: <DeletePatient /> },
   { path: "/employee/create", element: <CreateEmployee /> },
   { path: "/employee/delete", element: <DeleteEmployee /> },
+  { path: "/employeeposition/create", element: <CreateEmployeePosition /> },
   { path: "*", element: <NotFound /> },
 ];
 
@@ -77,6 +79,16 @@ const routes: Routes = {
     {
       path: "/employee/delete",
       pathChildName: "Delete",
+    },
+  ],
+  EmployeePosition: [
+    {
+      path: "/employeeposition/create",
+      pathChildName: "Create",
+    },
+    {
+      path: "/employeeposition/get",
+      pathChildName: "Get",
     },
   ],
 };
