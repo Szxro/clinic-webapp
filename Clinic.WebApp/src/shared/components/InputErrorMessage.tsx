@@ -1,4 +1,4 @@
-function ErrorMessage({
+function InputErrorMessage({
   message,
 }: {
   message: string | undefined;
@@ -10,4 +10,4 @@ function ErrorMessage({
   );
 }
 
-export default ErrorMessage;
+export default InputErrorMessage;
