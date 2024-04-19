@@ -1,4 +1,4 @@
-import { PostHookError } from "../../models/hooks/postHook.model";
+import { PostHookError } from "../../models/hooks/httpMethodHook.model";
 import { ProblemDetails } from "../../models/problem-details.model";
 
 export const isProblemDetails = (
