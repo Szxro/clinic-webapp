@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Clinic.Business.Employees.Commands.DeleteEmployee
 {
     public record DeleteEmployeeCommand(string employeeName,
-                                        int employeeNumber) : ICommand<Result>;
+                                        string employeeNif) : ICommand<Result>;
 
     public class DeleteEmployeeCommandHandler : ICommandHandler<DeleteEmployeeCommand, Result>
     {
@@ -25,7 +25,7 @@ namespace Clinic.Business.Employees.Commands.DeleteEmployee
 
         public async Task<Result> Handle(DeleteEmployeeCommand request, CancellationToken cancellationToken)
         {
-            Employee? foundEmployee = await _employeeRepository.GetEmployeeByNameAndEmployeeNumber(request.employeeName, request.employeeNumber);
+            Employee? foundEmployee = await _employeeRepository.GetEmployeeByNameAndNif(request.employeeName, request.employeeNif);
 
             if (foundEmployee is null)
             {

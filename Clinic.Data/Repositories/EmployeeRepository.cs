@@ -13,10 +13,10 @@ public class EmployeeRepository : GenericRepository<Employee>, IEmployeeReposito
 {
     public EmployeeRepository(AppDbContext dbContext) : base(dbContext) { }
 
-    public async Task<Employee?> GetEmployeeByNameAndEmployeeNumber(string name, int employeeNumber)
+    public async Task<Employee?> GetEmployeeByNameAndNif(string name, string nif)
     {
         return await _dbContext.Employee.Include(x => x.Person)
-                                         .Where(x => x.Person.Name == name && x.Id == employeeNumber)
+                                         .Where(x => x.Person.Name == name && x.Person.NIF == nif)
                                          .FirstOrDefaultAsync();
     }
 

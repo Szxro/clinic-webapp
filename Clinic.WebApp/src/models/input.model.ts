@@ -19,7 +19,7 @@ export interface CreateEmployeeForm {
 }
 export interface DeleteEmployeeForm {
   employeeName: string;
-  employeeNumber: number;
+  employeeNif: number;
 }
 
 export interface CreateEmployeePositionForm {

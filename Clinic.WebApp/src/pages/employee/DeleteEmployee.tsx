@@ -57,26 +57,26 @@ function DeleteEmployee(): React.JSX.Element {
           )}
         </div>
         <div className="mb-3">
-          <label htmlFor="employeeNumber" className="form-label">
-            employee Number
+          <label htmlFor="employeeNif" className="form-label">
+            Employee Nif
           </label>
           <input
             type="text"
-            {...register("employeeNumber", {
+            {...register("employeeNif", {
               required: {
                 value: true,
-                message: "The employee number is required",
+                message: "The employee nif is required",
               },
               pattern: {
-                value: /^\d{6}$/,
-                message: "The employee number is invalid",
+                value: /^\d{9}$/,
+                message: "The employee nif is invalid",
               },
             })}
             className="form-control"
-            id="employeeNumber"
+            id="employeeNif"
           />
-          {errors.employeeNumber && (
-            <InputErrorMessage message={errors.employeeNumber.message} />
+          {errors.employeeNif && (
+            <InputErrorMessage message={errors.employeeNif.message} />
           )}
         </div>
       </Form>

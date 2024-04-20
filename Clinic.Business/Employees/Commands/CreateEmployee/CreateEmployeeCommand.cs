@@ -33,13 +33,14 @@ public class CreateEmployeeCommandHandler : ICommandHandler<CreateEmployeeComman
 
     public async Task<Result> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
     {
-       EmployeePosition? employeePosition = await _employeePositionRepository.GetEmployeePositionByPositionName(request.employeePosition);
-
+        EmployeePosition? employeePosition = await _employeePositionRepository.GetEmployeePositionByPositionName(request.employeePosition);
 
         if (employeePosition is null)
         {
             return Result.Failure(EmployeePositionErrors.NotFoundByPositionName(request.employeePosition));
         }
+
+        _unitOfWork.ChangeContextTrackerToUnchanged(employeePosition);
 
         if (await _personRepository.IsNifNotAvaliable(request.nif))
         {
@@ -61,8 +62,6 @@ public class CreateEmployeeCommandHandler : ICommandHandler<CreateEmployeeComman
                 SocialNumber = request.socialNumber,
             },
             EmployeePosition = employeePosition,
-            
-
         };
 
         _employeeRepository.Add(newEmployee);

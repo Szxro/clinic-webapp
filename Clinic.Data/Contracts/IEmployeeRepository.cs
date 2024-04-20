@@ -18,7 +18,7 @@ namespace Clinic.Data.Contracts
 
         Task<bool> IsEmployeeNumberNotAvailable(int employeeNumber);
 
-        Task<Employee?> GetEmployeeByNameAndEmployeeNumber(string name, int employeeNumber);
+        Task<Employee?> GetEmployeeByNameAndNif(string name, string nif);
 
         Task<Employee?> GetEmployeePersonById(int id);
 
