@@ -150,29 +150,6 @@ function CreateEmployee(): React.JSX.Element {
             )}
           </div>
           <div className="mb-3">
-            <label htmlFor="employeeNumber" className="form-label">
-              Employee Number
-            </label>
-            <input
-              type="number"
-              className="form-control"
-              id="employeeNumber"
-              {...register("employeeNumber", {
-                required: {
-                  value: true,
-                  message: "The Employee Number is required",
-                },
-                pattern: {
-                  value: /^\d{6}$/,
-                  message: "The Employee Number is invalid",
-                },
-              })}
-            />
-            {errors.employeeNumber && (
-              <InputErrorMessage message={errors.employeeNumber.message} />
-            )}
-          </div>
-          <div className="mb-3">
             <label
               htmlFor="datepicker"
               style={{ display: "block", marginBottom: 10 }}

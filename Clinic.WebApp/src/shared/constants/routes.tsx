@@ -110,10 +110,10 @@ const routes: Routes = {
       path: "/personaddress/update",
       pathChildName: "Update",
     },
-    {
+    /*{
       path: "/personaddress/delete",
       pathChildName: "Delete",
-    },
+    }, */
     {
       path: "/personaddress/get",
       pathChildName: "Get",
