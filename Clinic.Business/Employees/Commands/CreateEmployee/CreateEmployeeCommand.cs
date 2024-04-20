@@ -2,6 +2,7 @@
 using Clinic.Data.Entities;
 using Clinic.Data.Entities.Common.Primitives;
 using Clinic.Data.Errors;
+using Clinic.Data.Repositories;
 
 namespace Clinic.Business.Employees.Commands.CreateEmployee;
 
@@ -9,7 +10,6 @@ public record CreateEmployeeCommand(string name,
                                      string telephone,
                                      string nif,
                                      int socialNumber,
-                                     int employeeNumber,
                                      string startDate,
                                      string employeePosition) : ICommand<Result>;
 
@@ -32,10 +32,13 @@ public class CreateEmployeeCommandHandler : ICommandHandler<CreateEmployeeComman
     }
 
     public async Task<Result> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
-    { 
-        if (await _employeeRepository.IsEmployeeNumberNotAvailable(request.employeeNumber))
+    {
+       EmployeePosition? employeePosition = await _employeePositionRepository.GetEmployeePositionByPositionName(request.employeePosition);
+
+
+        if (employeePosition is null)
         {
-            return Result.Failure(EmployeeErrors.EmployeeNumberNotUnique(request.employeeNumber));
+            return Result.Failure(EmployeePositionErrors.NotFoundByPositionName(request.employeePosition));
         }
 
         if (await _personRepository.IsNifNotAvaliable(request.nif))
@@ -57,7 +60,9 @@ public class CreateEmployeeCommandHandler : ICommandHandler<CreateEmployeeComman
                 NIF = request.nif,
                 SocialNumber = request.socialNumber,
             },
+            EmployeePosition = employeePosition,
             
+
         };
 
         _employeeRepository.Add(newEmployee);

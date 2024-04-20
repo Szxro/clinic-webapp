@@ -1,11 +1,10 @@
-﻿using Clinic.Business.Employees.Commands.CreateEmployee;
-using Clinic.Data.Contracts;
+﻿using Clinic.Data.Contracts;
+using Clinic.Data.Entities;
 using Clinic.Data.Entities.Common.Primitives;
 
 namespace Clinic.Business.EmployeePositions.Commands.CreateEmployeePosition;
-public record CreateEmployeePositionCommand(string positionName) : ICommand<Result> { }
-
-    public class CreateEmployeePositionCommandHandler : ICommandHandler<CreateEmployeeCommand, Result>
+public record CreateEmployeePositionCommand(string positionName): ICommand<Result> { }
+public class CreateEmployeePositionCommandHandler : ICommandHandler<CreateEmployeePositionCommand, Result>
     {
         private readonly IEmployeePositionRepository _employeePositionRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -17,12 +16,15 @@ public record CreateEmployeePositionCommand(string positionName) : ICommand<Resu
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Result> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
+        public async Task<Result> Handle(CreateEmployeePositionCommand request, CancellationToken cancellationToken)
         {
-            
-            
+        EmployeePosition newEmployeePosition = new EmployeePosition()
+        {
+            PositionName = request.positionName
+        };
+        _employeePositionRepository.Add(newEmployeePosition);
 
-            await _unitOfWork.SaveChangesAsync();
+        await _unitOfWork.SaveChangesAsync();
 
             return Result.Success();
         }

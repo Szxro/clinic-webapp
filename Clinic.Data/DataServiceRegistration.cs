@@ -77,7 +77,7 @@ public static class DataServiceRegistration
 
     public static async Task InitializeDatabaseAsync(this IServiceProvider serviceProvider)
     {
-        using var scope = serviceProvider.CreateScope();
+        using var scope = serviceProvider.CreateScope(); 
 
         IAppDbInitializerService initializer = scope.ServiceProvider.GetRequiredService<IAppDbInitializerService>();
 
